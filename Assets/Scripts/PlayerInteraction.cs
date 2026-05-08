@@ -35,14 +35,20 @@ public class PlayerInteraction : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, range, interactableLayer))
         {
-            PickableItem item = hit.collider.GetComponent<PickableItem>();
+             IInteractable interactable = hit.collider.GetComponent<IInteractable>();
+            if (interactable != null)
+            {
+                interactable.Interact();
+            }
+
+             PickableItem item = hit.collider.GetComponent<PickableItem>();
             if (item != null)
             {
                 currentlyHeldItem = item;
                 currentlyHeldItem.OnPickUp(handAnchor);
-                Debug.Log("Holding");
             }
         }
+
     }
 
     void DropItem()

@@ -23,7 +23,7 @@ public class PickableItem : MonoBehaviour, IInteractable
     { 
     }
 
-    public void OnPickUp(Transform hand)
+    public virtual void OnPickUp(Transform hand)
     {
         rb.isKinematic = true;      
         col.enabled = false;        
@@ -33,7 +33,7 @@ public class PickableItem : MonoBehaviour, IInteractable
         transform.localRotation = Quaternion.identity;
     }
 
-    public void OnDrop()
+    public virtual void OnDrop()
     { 
         transform.SetParent(originParent);
          
