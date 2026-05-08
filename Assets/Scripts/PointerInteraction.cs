@@ -13,11 +13,11 @@ public class PointerInteraction : MonoBehaviour
 
          if (Physics.Raycast(ray, out hit, interactDistance, interactableLayer))
         {
-             Debug.Log("Pointer najecha³ na: " + hit.collider.name);
+             //Debug.Log("Pointer " + hit.collider.name);
 
              if (Pointer.current.press.isPressed || Keyboard.current.eKey.wasPressedThisFrame)
             {
-                Debug.Log("Klikniêto w: " + hit.collider.name);
+                Debug.Log("Clicked " + hit.collider.name);
              }
         }
     }

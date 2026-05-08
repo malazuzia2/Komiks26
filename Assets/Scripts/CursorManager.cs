@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.InputSystem; // Dodajemy dla nowego Input Systemu
+using UnityEngine.InputSystem; 
 
 public class CursorManager : MonoBehaviour
 {

@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.InputSystem; // Musimy dodaæ tê liniê na górze!
+using UnityEngine.InputSystem; 
 
 public class BoatMovement : MonoBehaviour
 {
