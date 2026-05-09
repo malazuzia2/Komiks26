@@ -374,7 +374,7 @@ MonoBehaviour:
   maxShadowHands: 5
   shadowHandPrefab: {fileID: 8048728178641094298, guid: 809f21cb3615b054bbcff8ef3d20a795, type: 3}
   player: {fileID: 1266251374}
-  camera: {fileID: 0}
+  camera: {fileID: 601209177}
   activeShadowHands: []
 --- !u!4 &204402983
 Transform:
@@ -7607,6 +7607,8 @@ MonoBehaviour:
   maxParticleSize: 40
   highAlpha: 0.8
   lowAlpha: 0.3
+  pushForce: 25
+  shrinkSpeed: 2
 --- !u!1 &1923794198
 GameObject:
   m_ObjectHideFlags: 0

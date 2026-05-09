@@ -1,43 +1,62 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
+using Unity.Cinemachine;
 
 public class PlayerInteraction : MonoBehaviour
 {
     [Header("Ustawienia Interakcji")]
     public float range = 5f;
     public LayerMask interactableLayer;
-    public Transform handAnchor;        // Miejsce "rêki" pod kamer¹
+    public Transform handAnchor;        // Miejsce "rï¿½ki" pod kamerï¿½
 
     [Header("Stan Gracza")]
     private PickableItem currentlyHeldItem; // Aktualnie trzymany przedmiot
-    private HighlightEffect lastHighlighted; // Ostatnio podœwietlony obiekt
+    private HighlightEffect lastHighlighted; // Ostatnio podï¿½wietlony obiekt
+    public float cameraShakeIntensity = 3f;
+    public float cameraShakeDuration = 2f;
+    private CinemachineImpulseSource impulseSource;
+
+    private Camera mainCamera;
+    private Vector3 originalCameraPosition;
+
+    void Start()
+    {
+        mainCamera = Camera.main;
+        originalCameraPosition = mainCamera.transform.localPosition;
+        impulseSource = GetComponent<CinemachineImpulseSource>();
+        if (impulseSource == null)
+        {
+            impulseSource = gameObject.AddComponent<CinemachineImpulseSource>();
+        }
+    }
 
     void Update()
     {
-        // 1. Wysy³amy promieñ idealnie ze œrodka ekranu
+        // 1. Wysyï¿½amy promieï¿½ idealnie ze ï¿½rodka ekranu
         Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit hit;
 
-        // Sprawdzamy czy patrzymy na coœ interaktywnego na warstwie Interactable
+        // Sprawdzamy czy patrzymy na coï¿½ interaktywnego na warstwie Interactable
         if (Physics.Raycast(ray, out hit, range, interactableLayer))
         {
-            // --- LOGIKA PODŒWIETLANIA ---
+            // --- LOGIKA PODï¿½WIETLANIA ---
             HighlightEffect highlight = hit.collider.GetComponent<HighlightEffect>();
 
             if (highlight != null)
             {
                 if (lastHighlighted != highlight)
                 {
-                    // Wy³¹czamy poprzednie podœwietlenie
+                    // Wyï¿½ï¿½czamy poprzednie podï¿½wietlenie
                     if (lastHighlighted != null) lastHighlighted.ToggleHighlight(false);
 
-                    // W³¹czamy nowe podœwietlenie na obiekcie
+                    // Wï¿½ï¿½czamy nowe podï¿½wietlenie na obiekcie
                     highlight.ToggleHighlight(true);
                     lastHighlighted = highlight;
                 }
             }
 
-            // --- LOGIKA KLIKNIÊCIA (LPM) ---
+            // --- LOGIKA KLIKNIï¿½CIA (LPM) ---
             if (Mouse.current.leftButton.wasPressedThisFrame)
             {
                 if (currentlyHeldItem == null)
@@ -52,10 +71,10 @@ public class PlayerInteraction : MonoBehaviour
         }
         else
         {
-            // --- JEŒLI NIC NIE WIDZIMY ---
+            // --- JEï¿½LI NIC NIE WIDZIMY ---
             ResetHighlight();
 
-            // Klikniêcie w pust¹ przestrzeñ trzymaj¹c przedmiot - upuœæ go
+            // Klikniï¿½cie w pustï¿½ przestrzeï¿½ trzymajï¿½c przedmiot - upuï¿½ï¿½ go
             if (Mouse.current.leftButton.wasPressedThisFrame && currentlyHeldItem != null)
             {
                 DropCurrentItem();
@@ -63,9 +82,36 @@ public class PlayerInteraction : MonoBehaviour
         }
     }
 
+    public void CameraShake()
+    {
+        StartCoroutine(CameraShakeCoroutine());
+    }
+
+    IEnumerator CameraShakeCoroutine()
+    {
+        float elapsedTime = 0f;
+        
+        while (elapsedTime < cameraShakeDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float progress = elapsedTime / cameraShakeDuration;
+            
+            // Zmniejszanie intensywnoÅ›ci shake'a w czasie
+            float intensity = cameraShakeIntensity * (1f - progress);
+            
+            // Losowe przesuniÄ™cie kamery
+            Vector3 randomOffset = Random.insideUnitSphere * intensity;
+            mainCamera.transform.localPosition = originalCameraPosition + randomOffset;
+            
+            yield return null;
+        }
+        Debug.Log("Camera shake ended.");
+        mainCamera.transform.localPosition = originalCameraPosition;
+    }   
+
     void HandleNewInteraction(GameObject obj)
     {
-        // Interakcja (Radio / Prze³¹czniki)
+        // Interakcja (Radio / Przeï¿½ï¿½czniki)
         IInteractable interactable = obj.GetComponent<IInteractable>();
         if (interactable != null)
         {
