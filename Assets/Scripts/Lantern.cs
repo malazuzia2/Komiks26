@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 public class Lantern : PickableItem
 {
@@ -15,7 +16,14 @@ public class Lantern : PickableItem
     private float baseIntensity;
     public float maxTimeBetweenGlitches = 3.0f; 
     public float minTimeBetweenGlitches = 0.2f;  
-    public float glitchDuration = 0.05f;       
+    public float glitchDuration = 0.05f;
+
+    [Header("Shaking")]
+    public float shakeDuration = 0.5f;  
+    public float shakeAmount = 0.05f;  
+    private bool isShaking = false;
+    public float shakeSpeed = 20f;     // Jak szybko latarka lata lewo-prawo
+    public float shakeDistance = 0.1f; // Jak daleko wychyla siê na boki
 
     private float flickerTimer;
     private bool isGlitching = false; 
@@ -50,15 +58,60 @@ public class Lantern : PickableItem
     }
 
     void Update()
-    { 
-        if (isHeld && Mouse.current.rightButton.wasPressedThisFrame)
+    {
+        if (!isHeld) return;
+
+        if (Mouse.current.rightButton.wasPressedThisFrame && !isShaking)
         {
             ToggleLight();
         }
-        if (isOn) {
+
+        if (Keyboard.current.eKey.wasPressedThisFrame && !isShaking)
+        {
+            StartCoroutine(ShakeAndRecharge());
+        }
+
+        if (isOn && !isShaking)
+        {
             HandleBattery();
         }
     }
+
+    IEnumerator ShakeAndRecharge()
+    {
+        isShaking = true;
+
+        Vector3 originalPos = transform.localPosition;
+        Quaternion originalRot = transform.localRotation;
+        float elapsed = 0f;
+
+        while (elapsed < shakeDuration)
+        {
+            elapsed += Time.deltaTime;
+             
+            float xOffset = Mathf.Sin(elapsed * shakeSpeed) * shakeDistance;
+
+             transform.localPosition = new Vector3(originalPos.x + xOffset, originalPos.y, originalPos.z);
+
+             float tilt = xOffset * 50f;  
+            transform.localRotation = originalRot * Quaternion.Euler(0, 0, tilt);
+
+            yield return null;
+        }
+         
+        transform.localPosition = originalPos;
+        transform.localRotation = originalRot; 
+        Recharge(maxBattery);
+
+        if (currentBattery > 0 && !isOn)
+        {
+            isOn = true;
+            flashlightLight.enabled = true;
+        }
+
+        isShaking = false;
+    }
+
 
     void ToggleLight()
     {
