@@ -7,12 +7,12 @@ public class ShadowHand : MonoBehaviour
     public float allowedDistanceFromPlayer = 5f;
     public float shorteningIntensity = 1f;
     public float shorteningInterval = 2f;
-    public float trembleIntensity = 0.1f;
     public float ligtheningTimer = 3f;
     public float moveSpeed = 2f;
     private bool isAttacking = false;
     private bool enlightened = false;
     public GameObject player;
+    public GameObject camera;
     private ShadowManager shadowManager;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -50,9 +50,11 @@ public class ShadowHand : MonoBehaviour
             return;
         }
 
+        Vector3 directionToPlayer = (player.transform.position - transform.position).normalized;
+        Vector3 rotationDirection = Quaternion.LookRotation(directionToPlayer).eulerAngles;
+
         if (distanceFromPlayer > allowedDistanceFromPlayer)
         {
-            Vector3 directionToPlayer = (player.transform.position - transform.position).normalized;
             transform.position += directionToPlayer * moveSpeed * Time.deltaTime;
         }
         else if (distanceFromPlayer <= allowedDistanceFromPlayer)
@@ -64,6 +66,8 @@ public class ShadowHand : MonoBehaviour
                 shorteningInterval = 0f; // Reset the interval timer
             }
         }
+        
+        transform.rotation = Quaternion.Euler(rotationDirection.x, rotationDirection.y, rotationDirection.z);
     }
 
     void OnTriggerEnter(Collider collision)
@@ -78,12 +82,22 @@ public class ShadowHand : MonoBehaviour
     {
         Debug.Log("Shadow Hand is attacking the boat!");
         isAttacking = true;
+        player.GetComponent<BoatMovement>().isAttacked = true;
+        float origianlMoveSpeed = player.GetComponent<BoatMovement>().moveSpeed;
+        player.GetComponent<BoatMovement>().moveSpeed = 0f;
+        float originalRotationSpeed = player.GetComponent<BoatMovement>().turnSpeed;
+        player.GetComponent<BoatMovement>().turnSpeed = 0f; 
+        camera.GetComponent<PlayerInteraction>().CameraShake();
+        Debug.Log("Boat is attacked! Movement and rotation are locked.");
+        // Add boat tremble, increase fog intensity, lock player movement
+        
     }
 
     public void Death()
     {
         if (isAttacking)
         {
+            player.GetComponent<BoatMovement>().isAttacked = false;
             // Delete boat tremble, decrease fog intensity, unlock player movement
         }
 
@@ -106,7 +120,7 @@ public class ShadowHand : MonoBehaviour
         if (ligtheningTimer <= 0f)
         {
             Vector3 directionAwayFromPlayer = (transform.position - player.transform.position).normalized;
-            transform.position += directionAwayFromPlayer * 2 * moveSpeed * Time.deltaTime;
+            transform.position += directionAwayFromPlayer * 3 * moveSpeed * Time.deltaTime;
         }
     }
 
@@ -116,10 +130,11 @@ public class ShadowHand : MonoBehaviour
         return enlightened;
     }
 
-    public void Initialize(ShadowManager manager, GameObject playerReference)
+    public void Initialize(ShadowManager manager, GameObject playerReference, GameObject cameraReference)
     {
         shadowManager = manager;
         player = playerReference;
+        camera = cameraReference;
     }
 
     void OnDestroy()

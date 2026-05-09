@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem; 
 
@@ -5,6 +6,8 @@ public class BoatMovement : MonoBehaviour
 {
     public float moveSpeed = 50f;
     public float turnSpeed = 100f;
+    public bool isAttacked = false;
+    public List<GameObject> snapAttackPoints;
 
     private Rigidbody rb;
     private float moveInput;
@@ -17,7 +20,9 @@ public class BoatMovement : MonoBehaviour
 
     void Update()
     {
-         var keyboard = Keyboard.current;
+        if(isAttacked) return;
+
+        var keyboard = Keyboard.current;
         if (keyboard == null) return;
 
          moveInput = 0;

@@ -9,6 +9,7 @@ public class ShadowManager : MonoBehaviour
     public int maxShadowHands = 5;
     public GameObject shadowHandPrefab;
     public GameObject player;
+    public GameObject camera;
 
     [SerializeField]
     private List<ShadowHand> activeShadowHands = new List<ShadowHand>();
@@ -46,7 +47,7 @@ public class ShadowManager : MonoBehaviour
             return;
         }
 
-        float angle = Random.Range(0f, 360f);
+        float angle = Random.Range(0f, 180f);
         Vector3 direction = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), 0, Mathf.Sin(angle * Mathf.Deg2Rad));
         Vector3 spawnPosition = player.transform.position + direction * shadowSpawnDistance;
 
@@ -54,7 +55,7 @@ public class ShadowManager : MonoBehaviour
         Quaternion baseRotation = shadowHandPrefab.transform.rotation;
         Quaternion lookRotation = Quaternion.LookRotation(directionToPlayer);
         Quaternion finalRotation = baseRotation * lookRotation;
-
+        
         GameObject shadowHandObject = Instantiate(shadowHandPrefab, spawnPosition, finalRotation);
         ShadowHand shadowHand = shadowHandObject.GetComponent<ShadowHand>();
 
@@ -65,7 +66,7 @@ public class ShadowManager : MonoBehaviour
             return;
         }
 
-        shadowHand.Initialize(this, player);
+        shadowHand.Initialize(this, player, camera);
         activeShadowHands.Add(shadowHand);
     }
 
