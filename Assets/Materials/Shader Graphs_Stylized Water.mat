@@ -98,7 +98,7 @@ Material:
     - _Deep_Color: {r: 0, g: 0.2438708, b: 0.59607846, a: 0.36862746}
     - _Diffuse_Color: {r: 1, g: 0, b: 0, a: 1}
     - _Foam_Color: {r: 0, g: 1, b: 0.46160954, a: 0.4392157}
-    - _Horizon_Color: {r: 0.9150943, g: 0, b: 0.19378477, a: 1}
+    - _Horizon_Color: {r: 1, g: 0, b: 0.0058517456, a: 1}
     - _Intersection_Foam_Color: {r: 0.22414559, g: 0.6509434, b: 0.5250834, a: 1}
     - _Refraction_Movement: {r: 0, g: 0, b: 0, a: 0}
     - _Shallow_Color: {r: 0.35924706, g: 0.6509434, b: 0.6509434, a: 0.43137255}
