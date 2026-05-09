@@ -356,7 +356,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &204402982
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1320,6 +1320,7 @@ Transform:
   - {fileID: 925509765}
   - {fileID: 1828537080}
   - {fileID: 1923794201}
+  - {fileID: 1121176669}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &925509763
@@ -1371,7 +1372,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 919799275}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1089727413
+--- !u!1 &1121176668
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1382,26 +1383,46 @@ GameObject:
   - component: {fileID: 1089727414}
   m_Layer: 0
   m_Name: snapPoint (12)
+  - component: {fileID: 1121176669}
+  - component: {fileID: 1121176670}
+  m_Layer: 0
+  m_Name: BuoyManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1089727414
+--- !u!4 &1121176669
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1089727413}
+  m_GameObject: {fileID: 1121176668}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.336, y: 0.638, z: 0.359}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1948549795}
+  m_Father: {fileID: 919799275}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1121176670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1121176668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ec68b96ed18f094886301acbb17a681, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BuoySequenceManager
+  buoyPrefab: {fileID: 8525519060607301276, guid: f7cb2385a1ebae543a49b71dc24bdeb3, type: 3}
+  player: {fileID: 495010062}
+  spawnDistance: 50
+  lateralSpread: 50
 --- !u!1 &1167551365
 GameObject:
   m_ObjectHideFlags: 0
@@ -1839,8 +1860,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d82b4ade2c97eaf49af1735c2b78d10e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BoatMovement
-  moveSpeed: 2
-  turnSpeed: 20
+  moveSpeed: 3
+  turnSpeed: 30
   isAttacked: 0
   snapAttackPoints:
   - {fileID: 94577964}
@@ -7659,6 +7680,8 @@ MonoBehaviour:
   maxParticleSize: 40
   highAlpha: 0.8
   lowAlpha: 0.3
+  pushForce: 25
+  shrinkSpeed: 2
 --- !u!1 &1923794198
 GameObject:
   m_ObjectHideFlags: 0
