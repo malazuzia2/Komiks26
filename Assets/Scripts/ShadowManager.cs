@@ -48,16 +48,22 @@ public class ShadowManager : MonoBehaviour
             return;
         }
 
+        GameObject prefabToUse = shadowHandPrefab;
+        if ( Random.value % 2 == 0)
+        {
+            prefabToUse = shadowHandPrefab2;
+        }
+
         float angle = Random.Range(0f, 180f);
         Vector3 direction = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), 0, Mathf.Sin(angle * Mathf.Deg2Rad));
         Vector3 spawnPosition = player.transform.position + direction * shadowSpawnDistance;
 
         Vector3 directionToPlayer = (player.transform.position - spawnPosition).normalized;
-        Quaternion baseRotation = shadowHandPrefab.transform.rotation;
+        Quaternion baseRotation = prefabToUse.transform.rotation;
         Quaternion lookRotation = Quaternion.LookRotation(directionToPlayer);
         Quaternion finalRotation = baseRotation * lookRotation;
         
-        GameObject shadowHandObject = Instantiate(shadowHandPrefab, spawnPosition, finalRotation);
+        GameObject shadowHandObject = Instantiate(prefabToUse, spawnPosition, finalRotation);
         ShadowHand shadowHand = shadowHandObject.GetComponent<ShadowHand>();
 
         if (shadowHand == null)

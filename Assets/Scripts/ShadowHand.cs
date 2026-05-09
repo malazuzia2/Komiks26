@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UIElements;
+using Unity.Cinemachine;
 
 public class ShadowHand : MonoBehaviour
 {
@@ -14,10 +15,11 @@ public class ShadowHand : MonoBehaviour
     public GameObject player;
     public GameObject camera;
     private ShadowManager shadowManager;
+    private CinemachineImpulseSource impulseSource;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Awake()
     {
+        impulseSource = GetComponent<CinemachineImpulseSource>();
     }
 
     // Update is called once per frame
@@ -77,6 +79,18 @@ public class ShadowHand : MonoBehaviour
             AttackBoat();
         }
     }
+    public void CameraShake()
+    {
+        if (impulseSource != null)
+        {
+            // To wywo³a wstrz¹s
+            impulseSource.GenerateImpulse();
+        }
+        else
+        {
+            Debug.LogWarning("Brak CinemachineImpulseSource na obiekcie kamery!");
+        }
+    }
 
     public void AttackBoat()
     {
@@ -86,8 +100,8 @@ public class ShadowHand : MonoBehaviour
         float origianlMoveSpeed = player.GetComponent<BoatMovement>().moveSpeed;
         player.GetComponent<BoatMovement>().moveSpeed = 0f;
         float originalRotationSpeed = player.GetComponent<BoatMovement>().turnSpeed;
-        player.GetComponent<BoatMovement>().turnSpeed = 0f; 
-        camera.GetComponent<CameraShake>().CameraShaker();
+        player.GetComponent<BoatMovement>().turnSpeed = 0f;
+        CameraShake();
         Debug.Log("Boat is attacked! Movement and rotation are locked.");
         // Add boat tremble, increase fog intensity, lock player movement
         
