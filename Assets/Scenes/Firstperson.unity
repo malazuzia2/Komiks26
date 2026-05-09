@@ -181,6 +181,56 @@ Transform:
   m_Children: []
   m_Father: {fileID: 601209180}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &204402981
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 204402983}
+  - component: {fileID: 204402982}
+  m_Layer: 0
+  m_Name: ShadowManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &204402982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 204402981}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0acc0f739f6f064c85093629c8cef73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShadowManager
+  shadowSpawnDistance: 14
+  shadowSpawnInterval: 10
+  maxShadowHands: 5
+  shadowHandPrefab: {fileID: 8048728178641094298, guid: 809f21cb3615b054bbcff8ef3d20a795, type: 3}
+  player: {fileID: 601209177}
+  activeShadowHands: []
+--- !u!4 &204402983
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 204402981}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 6.52565, y: -0, z: -7.91422}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &280406129
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -233,6 +283,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: boat
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 594fdb3140f420e439645d626bd6580a, type: 3}
+      propertyPath: m_TagString
+      value: Boat
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -261,6 +315,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 594fdb3140f420e439645d626bd6580a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1266251375}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 594fdb3140f420e439645d626bd6580a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1266251380}
   m_SourcePrefab: {fileID: 100100000, guid: 594fdb3140f420e439645d626bd6580a, type: 3}
 --- !u!1001 &346852132
 PrefabInstance:
@@ -1142,6 +1199,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BoatMovement
   moveSpeed: 2
   turnSpeed: 20
+--- !u!65 &1266251380
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1266251374}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3.5, y: 0.7, z: 1.6}
+  m_Center: {x: -0.22072202, y: 0.32698968, z: 0}
 --- !u!1 &1421802350
 GameObject:
   m_ObjectHideFlags: 0
@@ -2222,3 +2300,4 @@ SceneRoots:
   - {fileID: 1510508384}
   - {fileID: 1923794201}
   - {fileID: 1828537080}
+  - {fileID: 204402983}

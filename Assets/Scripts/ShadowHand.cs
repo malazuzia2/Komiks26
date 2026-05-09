@@ -44,7 +44,13 @@ public class ShadowHand : MonoBehaviour
         }
 
         float distanceFromPlayer = Vector3.Distance(transform.position, player.transform.position);
-        if (distanceFromPlayer > allowedDistanceFromPlayer + trembleIntensity)
+        if (distanceFromPlayer > shadowManager.shadowSpawnDistance + 2f)
+        {
+            Death();
+            return;
+        }
+
+        if (distanceFromPlayer > allowedDistanceFromPlayer)
         {
             Vector3 directionToPlayer = (player.transform.position - transform.position).normalized;
             transform.position += directionToPlayer * moveSpeed * Time.deltaTime;
@@ -54,17 +60,13 @@ public class ShadowHand : MonoBehaviour
             shorteningInterval += Time.deltaTime;
             if (shorteningInterval >= 2f)
             {
-                distanceFromPlayer -= shorteningIntensity;
+                allowedDistanceFromPlayer -= shorteningIntensity;
                 shorteningInterval = 0f; // Reset the interval timer
             }
         }
-        else if (shadowManager != null && distanceFromPlayer > shadowManager.shadowSpawnDistance)
-        {
-            Death();
-        }
     }
 
-    void OnCollisionEnter(Collision collision)
+    void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.CompareTag("Boat"))
         {

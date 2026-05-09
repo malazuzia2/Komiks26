@@ -50,7 +50,12 @@ public class ShadowManager : MonoBehaviour
         Vector3 direction = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), 0, Mathf.Sin(angle * Mathf.Deg2Rad));
         Vector3 spawnPosition = player.transform.position + direction * shadowSpawnDistance;
 
-        GameObject shadowHandObject = Instantiate(shadowHandPrefab, spawnPosition, Quaternion.identity);
+        Vector3 directionToPlayer = (player.transform.position - spawnPosition).normalized;
+        Quaternion baseRotation = shadowHandPrefab.transform.rotation;
+        Quaternion lookRotation = Quaternion.LookRotation(directionToPlayer);
+        Quaternion finalRotation = baseRotation * lookRotation;
+
+        GameObject shadowHandObject = Instantiate(shadowHandPrefab, spawnPosition, finalRotation);
         ShadowHand shadowHand = shadowHandObject.GetComponent<ShadowHand>();
 
         if (shadowHand == null)
