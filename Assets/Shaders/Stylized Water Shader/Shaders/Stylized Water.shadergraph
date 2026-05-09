@@ -2995,7 +2995,7 @@
     "m_Title": "Refracted UV",
     "m_Position": {
         "x": -3127.0,
-        "y": -1974.000244140625
+        "y": -1974.0
     }
 }
 
@@ -3589,7 +3589,7 @@
     "m_Title": "Surface Foam",
     "m_Position": {
         "x": -2574.0,
-        "y": -781.0003051757813
+        "y": -781.0
     }
 }
 
@@ -3826,7 +3826,7 @@
     "m_Title": "Waves",
     "m_Position": {
         "x": -1447.0,
-        "y": -2658.000244140625
+        "y": -2658.0
     }
 }
 
@@ -4074,7 +4074,7 @@
     "m_Title": "Blended Normals",
     "m_Position": {
         "x": -3573.0,
-        "y": -2263.000244140625
+        "y": -2263.0
     }
 }
 
@@ -4600,7 +4600,7 @@
     "m_Title": "Lighting",
     "m_Position": {
         "x": -2166.0,
-        "y": -2263.000244140625
+        "y": -2263.0
     }
 }
 
@@ -4884,7 +4884,7 @@
     "m_Title": "Depth Color",
     "m_Position": {
         "x": -2349.0,
-        "y": -1284.0001220703125
+        "y": -1284.0
     }
 }
 
@@ -6196,7 +6196,7 @@
     "m_Title": "Underwater Color",
     "m_Position": {
         "x": -1801.0,
-        "y": -1449.000244140625
+        "y": -1449.0
     }
 }
 
@@ -6381,7 +6381,7 @@
     "m_Title": "Refracted UV",
     "m_Position": {
         "x": -3364.0,
-        "y": -1466.000244140625
+        "y": -1466.0
     }
 }
 
@@ -9126,7 +9126,7 @@
     "m_Title": "Intersection Foam",
     "m_Position": {
         "x": -2354.0,
-        "y": 13.999706268310547
+        "y": 14.0
     }
 }
 
@@ -10051,10 +10051,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": 682.0000610351563,
-            "y": -1241.0001220703125,
-            "width": 208.0,
-            "height": 302.00006103515627
+            "x": 682.0,
+            "y": -1158.0,
+            "width": 208.00006103515626,
+            "height": 302.0
         }
     },
     "m_Slots": [
@@ -10536,6 +10536,15 @@
 }
 
 {
+    "m_SGVersion": 2,
+    "m_Type": "UnityEditor.Rendering.Universal.ShaderGraph.UniversalUnlitSubTarget",
+    "m_ObjectId": "96883773e19b48b4814c80084dae66f3",
+    "m_KeepLightingVariants": false,
+    "m_DefaultDecalBlending": true,
+    "m_DefaultSSAO": true
+}
+
+{
     "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.DynamicValueMaterialSlot",
     "m_ObjectId": "971b7f0eaf1c401e95b7b04667a2c3c1",
@@ -10735,7 +10744,7 @@
     "m_Title": "Intersection Foam Mask",
     "m_Position": {
         "x": -2359.0,
-        "y": -342.0001220703125
+        "y": -342.0
     }
 }
 
@@ -12380,15 +12389,6 @@
 }
 
 {
-    "m_SGVersion": 2,
-    "m_Type": "UnityEditor.Rendering.Universal.ShaderGraph.UniversalUnlitSubTarget",
-    "m_ObjectId": "bafa5b5611674ba584abe2e7da7dd432",
-    "m_KeepLightingVariants": false,
-    "m_DefaultDecalBlending": true,
-    "m_DefaultSSAO": true
-}
-
-{
     "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.Texture2DInputMaterialSlot",
     "m_ObjectId": "bb1361e6ad934aeab92536ca1c88db7f",
@@ -12498,7 +12498,7 @@
     "m_Title": "Exponential Fog",
     "m_Position": {
         "x": -575.0,
-        "y": -1218.0001220703125
+        "y": -1218.0
     }
 }
 
@@ -12913,7 +12913,7 @@
     "m_Title": "Depth Fade",
     "m_Position": {
         "x": -2840.0,
-        "y": -1250.0001220703125
+        "y": -1250.0
     }
 }
 
@@ -14088,7 +14088,7 @@
     "m_ObjectId": "dc9d50388a4f4094a67e8936ae2f31a4",
     "m_Datas": [],
     "m_ActiveSubTarget": {
-        "m_Id": "bafa5b5611674ba584abe2e7da7dd432"
+        "m_Id": "96883773e19b48b4814c80084dae66f3"
     },
     "m_AllowMaterialOverride": false,
     "m_SurfaceType": 0,
@@ -15279,7 +15279,7 @@
     "m_Title": "Horizon Color",
     "m_Position": {
         "x": -2348.0,
-        "y": -1043.0001220703125
+        "y": -1043.0
     }
 }
 
