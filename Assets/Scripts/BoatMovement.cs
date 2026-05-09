@@ -33,7 +33,9 @@ public class BoatMovement : MonoBehaviour
     {
          if (Mathf.Abs(moveInput) > 0.1f)
         {
-            rb.AddRelativeForce(Vector3.forward * moveInput * moveSpeed);
+            rb.AddRelativeForce(Vector3.left * moveInput * moveSpeed);
+
+           // rb.AddRelativeForce(Vector3.forward * moveInput * moveSpeed);
         }
 
          if (Mathf.Abs(turnInput) > 0.1f)
