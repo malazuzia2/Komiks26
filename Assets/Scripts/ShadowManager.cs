@@ -8,6 +8,7 @@ public class ShadowManager : MonoBehaviour
     public float shadowSpawnInterval = 10f;
     public int maxShadowHands = 5;
     public GameObject shadowHandPrefab;
+    public GameObject shadowHandPrefab2;
     public GameObject player;
     public GameObject camera;
 
