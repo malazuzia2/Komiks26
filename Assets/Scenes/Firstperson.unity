@@ -582,6 +582,10 @@ MonoBehaviour:
   maxTimeBetweenGlitches: 3
   minTimeBetweenGlitches: 0.2
   glitchDuration: 0.05
+  shakeDuration: 0.5
+  shakeAmount: 0.05
+  shakeSpeed: 20
+  shakeDistance: 0.1
   fastFlickerInterval: 0.05
 --- !u!54 &380945417
 Rigidbody:
@@ -1062,6 +1066,10 @@ MonoBehaviour:
   maxTimeBetweenGlitches: 3
   minTimeBetweenGlitches: 0.2
   glitchDuration: 0.05
+  shakeDuration: 0.5
+  shakeAmount: 0.05
+  shakeSpeed: 20
+  shakeDistance: 0.1
   fastFlickerInterval: 0.05
 --- !u!114 &1167551371
 MonoBehaviour:
@@ -1363,7 +1371,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!64 &1421802351
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -7387,6 +7395,10 @@ MonoBehaviour:
   maxTimeBetweenGlitches: 3
   minTimeBetweenGlitches: 0.2
   glitchDuration: 0.05
+  shakeDuration: 0.5
+  shakeAmount: 0.05
+  shakeSpeed: 20
+  shakeDistance: 0.1
   fastFlickerInterval: 0.05
 --- !u!65 &2038610269
 BoxCollider:
@@ -7500,7 +7512,6 @@ SceneRoots:
   - {fileID: 1201556744}
   - {fileID: 1968280386}
   - {fileID: 1510508384}
-  - {fileID: 1923794201}
-  - {fileID: 1828537080}
   - {fileID: 204402983}
   - {fileID: 1983229812}
+  - {fileID: 1421802354}
