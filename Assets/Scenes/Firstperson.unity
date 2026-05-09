@@ -435,6 +435,9 @@ PrefabInstance:
       addedObject: {fileID: 1698824076}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 57ce06bed68664f40935084f0d9caacc, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 1698824082}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 57ce06bed68664f40935084f0d9caacc, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 1698824075}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 57ce06bed68664f40935084f0d9caacc, type: 3}
       insertIndex: -1
@@ -2159,6 +2162,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.12534523, y: 0.12534523, z: 0.25824654}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1698824082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1698824073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85cd6cdd719b6c0478c939715e028e00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HighlightEffect
+  highlightColor: {r: 3.0000005, g: 3.0000005, b: 3.0000005, a: 1}
 --- !u!4 &1812534810 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c48b49cf68bc40e498dfde57f4997b86, type: 3}
@@ -7690,6 +7706,9 @@ PrefabInstance:
       addedObject: {fileID: 2038610268}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: af11b71fb7e483f41826b077bbd818c9, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 2038610273}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: af11b71fb7e483f41826b077bbd818c9, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 2038610270}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: af11b71fb7e483f41826b077bbd818c9, type: 3}
       insertIndex: -1
@@ -7779,6 +7798,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &2038610273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2038610267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85cd6cdd719b6c0478c939715e028e00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HighlightEffect
+  highlightColor: {r: 3.0000005, g: 3.0000005, b: 3.0000005, a: 0.3647059}
 --- !u!1 &2050275017
 GameObject:
   m_ObjectHideFlags: 0
