@@ -13,23 +13,7 @@ public class PlayerInteraction : MonoBehaviour
     [Header("Stan Gracza")]
     private PickableItem currentlyHeldItem; // Aktualnie trzymany przedmiot
     private HighlightEffect lastHighlighted; // Ostatnio pod�wietlony obiekt
-    public float cameraShakeIntensity = 3f;
-    public float cameraShakeDuration = 2f;
-    private CinemachineImpulseSource impulseSource;
-
-    private Camera mainCamera;
-    private Vector3 originalCameraPosition;
-
-    void Start()
-    {
-        mainCamera = Camera.main;
-        originalCameraPosition = mainCamera.transform.localPosition;
-        impulseSource = GetComponent<CinemachineImpulseSource>();
-        if (impulseSource == null)
-        {
-            impulseSource = gameObject.AddComponent<CinemachineImpulseSource>();
-        }
-    }
+ 
 
     void Update()
     {
@@ -82,32 +66,7 @@ public class PlayerInteraction : MonoBehaviour
         }
     }
 
-    public void CameraShake()
-    {
-        StartCoroutine(CameraShakeCoroutine());
-    }
-
-    IEnumerator CameraShakeCoroutine()
-    {
-        float elapsedTime = 0f;
-        
-        while (elapsedTime < cameraShakeDuration)
-        {
-            elapsedTime += Time.deltaTime;
-            float progress = elapsedTime / cameraShakeDuration;
-            
-            // Zmniejszanie intensywności shake'a w czasie
-            float intensity = cameraShakeIntensity * (1f - progress);
-            
-            // Losowe przesunięcie kamery
-            Vector3 randomOffset = Random.insideUnitSphere * intensity;
-            mainCamera.transform.localPosition = originalCameraPosition + randomOffset;
-            
-            yield return null;
-        }
-        Debug.Log("Camera shake ended.");
-        mainCamera.transform.localPosition = originalCameraPosition;
-    }   
+    
 
     void HandleNewInteraction(GameObject obj)
     {
@@ -133,6 +92,7 @@ public class PlayerInteraction : MonoBehaviour
         {
             currentlyHeldItem.OnDrop();
             currentlyHeldItem = null;
+            Debug.Log("Item dropped!");
         }
     }
 

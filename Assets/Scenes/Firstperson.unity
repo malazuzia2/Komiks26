@@ -552,7 +552,7 @@ MonoBehaviour:
   maxShadowHands: 5
   shadowHandPrefab: {fileID: 8048728178641094298, guid: 809f21cb3615b054bbcff8ef3d20a795, type: 3}
   player: {fileID: 1266251374}
-  camera: {fileID: 601209177}
+  camera: {fileID: 1968280381}
   activeShadowHands: []
 --- !u!4 &271520287
 Transform:
@@ -9499,6 +9499,7 @@ GameObject:
   - component: {fileID: 1968280385}
   - component: {fileID: 1968280384}
   - component: {fileID: 1968280383}
+  - component: {fileID: 1968280387}
   - component: {fileID: 1968280382}
   m_Layer: 0
   m_Name: CinemachineCamera
@@ -9653,6 +9654,30 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 2.438, z: 0}
+--- !u!114 &1968280387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1968280381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineImpulseListener
+  ApplyAfter: 2
+  ChannelMask: 1
+  Gain: 1
+  Use2DDistance: 0
+  UseCameraSpace: 1
+  SignalCombinationMode: 0
+  ReactionSettings:
+    m_SecondaryNoise: {fileID: 0}
+    AmplitudeGain: 1
+    FrequencyGain: 1
+    Duration: 1
+    m_NoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!1 &1983229808
 GameObject:
   m_ObjectHideFlags: 0

@@ -87,7 +87,7 @@ public class ShadowHand : MonoBehaviour
         player.GetComponent<BoatMovement>().moveSpeed = 0f;
         float originalRotationSpeed = player.GetComponent<BoatMovement>().turnSpeed;
         player.GetComponent<BoatMovement>().turnSpeed = 0f; 
-        camera.GetComponent<PlayerInteraction>().CameraShake();
+        camera.GetComponent<CameraShake>().CameraShaker();
         Debug.Log("Boat is attacked! Movement and rotation are locked.");
         // Add boat tremble, increase fog intensity, lock player movement
         
