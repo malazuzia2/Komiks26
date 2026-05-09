@@ -1,104 +1,107 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using System.Collections;
 
 public class PlayerInteraction : MonoBehaviour
 {
+    [Header("Ustawienia Interakcji")]
     public float range = 5f;
     public LayerMask interactableLayer;
-    public Transform handAnchor;
+    public Transform handAnchor;        // Miejsce "rêki" pod kamer¹
 
-    public float cameraShakeIntensity = 3f;
-    public float cameraShakeDuration = 2f;
-
-    private PickableItem currentlyHeldItem;
-    private Camera mainCamera;
-    private Vector3 originalCameraPosition;
-
-    void Start()
-    {
-        mainCamera = Camera.main;
-        originalCameraPosition = mainCamera.transform.localPosition;
-    }
+    [Header("Stan Gracza")]
+    private PickableItem currentlyHeldItem; // Aktualnie trzymany przedmiot
+    private HighlightEffect lastHighlighted; // Ostatnio podœwietlony obiekt
 
     void Update()
-    { 
-        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-        RaycastHit hit;
-
-        if (Mouse.current.leftButton.wasPressedThisFrame)
-        {
-            if (currentlyHeldItem == null)
-            {
-                TryPickUp();
-            }
-            else
-            {
-                DropItem();
-            }
-        }
-
-    }
-
-    void TryPickUp()
     {
+        // 1. Wysy³amy promieñ idealnie ze œrodka ekranu
         Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit hit;
 
+        // Sprawdzamy czy patrzymy na coœ interaktywnego na warstwie Interactable
         if (Physics.Raycast(ray, out hit, range, interactableLayer))
         {
-             IInteractable interactable = hit.collider.GetComponent<IInteractable>();
-            if (interactable != null)
+            // --- LOGIKA PODŒWIETLANIA ---
+            HighlightEffect highlight = hit.collider.GetComponent<HighlightEffect>();
+
+            if (highlight != null)
             {
-                interactable.Interact();
+                if (lastHighlighted != highlight)
+                {
+                    // Wy³¹czamy poprzednie podœwietlenie
+                    if (lastHighlighted != null) lastHighlighted.ToggleHighlight(false);
+
+                    // W³¹czamy nowe podœwietlenie na obiekcie
+                    highlight.ToggleHighlight(true);
+                    lastHighlighted = highlight;
+                }
             }
 
-             PickableItem item = hit.collider.GetComponent<PickableItem>();
-            if (item != null)
+            // --- LOGIKA KLIKNIÊCIA (LPM) ---
+            if (Mouse.current.leftButton.wasPressedThisFrame)
             {
-                currentlyHeldItem = item;
-                currentlyHeldItem.OnPickUp(handAnchor);
+                if (currentlyHeldItem == null)
+                {
+                    HandleNewInteraction(hit.collider.gameObject);
+                }
+                else
+                {
+                    DropCurrentItem();
+                }
             }
         }
+        else
+        {
+            // --- JEŒLI NIC NIE WIDZIMY ---
+            ResetHighlight();
 
+            // Klikniêcie w pust¹ przestrzeñ trzymaj¹c przedmiot - upuœæ go
+            if (Mouse.current.leftButton.wasPressedThisFrame && currentlyHeldItem != null)
+            {
+                DropCurrentItem();
+            }
+        }
     }
 
-    void DropItem()
+    void HandleNewInteraction(GameObject obj)
+    {
+        // Interakcja (Radio / Prze³¹czniki)
+        IInteractable interactable = obj.GetComponent<IInteractable>();
+        if (interactable != null)
+        {
+            interactable.Interact();
+        }
+
+        // Podnoszenie (Latarka / Kostka)
+        PickableItem item = obj.GetComponent<PickableItem>();
+        if (item != null)
+        {
+            currentlyHeldItem = item;
+            currentlyHeldItem.OnPickUp(handAnchor);
+        }
+    }
+
+    void DropCurrentItem()
     {
         if (currentlyHeldItem != null)
         {
             currentlyHeldItem.OnDrop();
             currentlyHeldItem = null;
-            CameraShake();
-            Debug.Log("Dropped");
         }
     }
 
-    public void CameraShake()
+    void ResetHighlight()
     {
-        StartCoroutine(CameraShakeCoroutine());
-    }
-
-    IEnumerator CameraShakeCoroutine()
-    {
-        float elapsedTime = 0f;
-        
-        while (elapsedTime < cameraShakeDuration)
+        if (lastHighlighted != null)
         {
-            elapsedTime += Time.deltaTime;
-            float progress = elapsedTime / cameraShakeDuration;
-            
-            // Zmniejszanie intensywnoÅ›ci shake'a w czasie
-            float intensity = cameraShakeIntensity * (1f - progress);
-            
-            // Losowe przesuniÄ™cie kamery
-            Vector3 randomOffset = Random.insideUnitSphere * intensity;
-            mainCamera.transform.localPosition = originalCameraPosition + randomOffset;
-            
-            yield return null;
+            lastHighlighted.ToggleHighlight(false);
+            lastHighlighted = null;
         }
-        Debug.Log("Camera shake ended.");
-        mainCamera.transform.localPosition = originalCameraPosition;
-    }   
+    }
 
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawRay(transform.position, transform.forward * range);
+    }
 }
