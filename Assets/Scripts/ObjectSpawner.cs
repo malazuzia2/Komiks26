@@ -9,20 +9,45 @@ public class ObjectSpawner : MonoBehaviour
     public float minSpawnDistance = 100f;  
     public float maxSpawnDistance = 200f;  
     public float lateralRange = 60f;       
-    public float spawnRate = 2f;           
+    public float spawnRate = 2f;
+
+    private Rigidbody playerRb;
+    public float minSpeedToSpawn = 1f;
 
     private float nextSpawnTime;
 
     void Update()
     {
-        if (player == null) return;
-
-        if (Time.time > nextSpawnTime)
+        if (player == null)
         {
-            SpawnObject();
-            nextSpawnTime = Time.time + spawnRate;
+            Debug.LogWarning("Brak ³odzi");
+            return;
+        }
+
+        if (playerRb == null)
+        {
+            playerRb = player.GetComponent<Rigidbody>();
+
+            if (playerRb == null)
+                playerRb = player.GetComponentInChildren<Rigidbody>();
+
+            if (playerRb == null) return; 
+        }
+
+        if (playerRb.linearVelocity.magnitude > minSpeedToSpawn)
+        {
+            if (Time.time > nextSpawnTime)
+            {
+                SpawnObject();
+                nextSpawnTime = Time.time + spawnRate;
+            }
+        }
+        else
+        {
+            nextSpawnTime = Time.time + 0.5f;
         }
     }
+
 
     void SpawnObject()
     {

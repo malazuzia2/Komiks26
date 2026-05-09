@@ -189,10 +189,10 @@ MonoBehaviour:
   active: 1
   type:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 8
   intensity:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 0.336
   response:
     m_OverrideState: 1
     m_Value: 0.8
@@ -311,7 +311,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a074ec59f6e910b4e8c49f57e56cf95a, type: 3}
   m_Name: VolumetricFogVolumeComponent
   m_EditorClassIdentifier: com.cqf.urpvolumetricfog.runtime::VolumetricFogVolumeComponent
-  active: 0
+  active: 1
   distance:
     m_OverrideState: 1
     m_Value: 512
@@ -323,7 +323,7 @@ MonoBehaviour:
     m_Value: 50
   enableGround:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0
   groundHeight:
     m_OverrideState: 1
     m_Value: 0
@@ -341,7 +341,7 @@ MonoBehaviour:
     m_Value: 1
   enableMainLightContribution:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0
   anisotropy:
     m_OverrideState: 1
     m_Value: 0.4
@@ -923,7 +923,7 @@ MonoBehaviour:
   active: 1
   intensity:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 0.159
 --- !u!114 &6940869943325143175
 MonoBehaviour:
   m_ObjectHideFlags: 3
