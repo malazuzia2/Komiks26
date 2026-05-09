@@ -16,10 +16,10 @@ public class Buoy : MonoBehaviour
     {
         if (isUsed) return 0;
         isUsed = true;
-         
-        if (BuoySequenceManager.Instance != null)
+
+        if (NavigationManager.Instance != null)
         {
-            BuoySequenceManager.Instance.SpawnNextBuoy();
+            NavigationManager.Instance.StartLookingForStars();
         }
 
         Destroy(gameObject, 0.1f);
