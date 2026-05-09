@@ -62,20 +62,20 @@ Material:
     - WORLD_SPACE_UV: 1
     - _Depth_Fade_Distance: 0.4
     - _Foam_Blend: 1
-    - _Horizon_Distance: 5.1
+    - _Horizon_Distance: 7.2
     - _Intersection_Foam_Blend: 0
     - _Intersection_Foam_Color_Blend: 0.32
     - _Intersection_Foam_Cutoff: 0.875
-    - _Intersection_Foam_Depth: 0.48
+    - _Intersection_Foam_Depth: 1.46
     - _Intersection_Foam_Direction: 0.154
     - _Intersection_Foam_Fade: 1
     - _Intersection_Foam_Speed: 0.131
     - _Intersection_Foam_Tiling: 33
     - _Lighting_Hardness: 0
-    - _Lighting_Smoothness: 0.09
+    - _Lighting_Smoothness: 0
     - _Normals_Scale: 0.2
     - _Normals_Speed: 0.073
-    - _Normals_Strength: 0.692
+    - _Normals_Strength: 1
     - _QueueControl: 1
     - _QueueOffset: 0
     - _Refraction_Scale: 0.01
@@ -87,25 +87,25 @@ Material:
     - _Surface_Foam_Blend: 1
     - _Surface_Foam_Color_Blend: 1
     - _Surface_Foam_Cutoff: 0.131
-    - _Surface_Foam_Direction: 0.4
+    - _Surface_Foam_Direction: 0.316
     - _Surface_Foam_Distortion: 0.94
     - _Surface_Foam_Speed: 0
     - _Surface_Foam_Tiling: 84.8
-    - _Wave_Length: 2.8
-    - _Wave_Speed: 0.57
-    - _Wave_Steepness: 0.088
+    - _Wave_Length: 5.46
+    - _Wave_Speed: 0.98
+    - _Wave_Steepness: 0.145
     m_Colors:
     - _Deep_Color: {r: 0, g: 0.2438708, b: 0.59607846, a: 0.36862746}
     - _Diffuse_Color: {r: 1, g: 0, b: 0, a: 1}
     - _Foam_Color: {r: 0, g: 1, b: 0.46160954, a: 0.4392157}
-    - _Horizon_Color: {r: 1, g: 0, b: 0.21360016, a: 1}
+    - _Horizon_Color: {r: 0.9150943, g: 0, b: 0.19378477, a: 1}
     - _Intersection_Foam_Color: {r: 0.22414559, g: 0.6509434, b: 0.5250834, a: 1}
     - _Refraction_Movement: {r: 0, g: 0, b: 0, a: 0}
     - _Shallow_Color: {r: 0.35924706, g: 0.6509434, b: 0.6509434, a: 0.43137255}
     - _Shore_Color: {r: 0, g: 0, b: 0, a: 0}
     - _Specular_Color: {r: 0, g: 0.990566, b: 0.19990838, a: 0.1764706}
     - _Surface_Foam_Color: {r: 1, g: 1, b: 1, a: 0}
-    - _Wave_Directions: {r: 0, g: 0.5, b: 1, a: 0.2}
+    - _Wave_Directions: {r: -0.47, g: 1.7, b: 1, a: 0.2}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &6558234974639672788
