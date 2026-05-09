@@ -107,7 +107,10 @@ public class AstrologicalTelescope : PickableItem
             NavigationManager.Instance.OnStarsMatched();
             solved = true;
 
-
+            if (starTargetGroup != null)
+            {
+                starTargetGroup.gameObject.SetActive(false);
+            }
         }
     }
 }
