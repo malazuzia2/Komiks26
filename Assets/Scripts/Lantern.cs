@@ -23,7 +23,7 @@ public class Lantern : PickableItem
     public float shakeAmount = 0.05f;  
     private bool isShaking = false;
     public float shakeSpeed = 20f;     // Jak szybko latarka lata lewo-prawo
-    public float shakeDistance = 0.1f; // Jak daleko wychyla siê na boki
+    public float shakeDistance = 0.1f; // Jak daleko wychyla siï¿½ na boki
 
     private float flickerTimer;
     private bool isGlitching = false; 
@@ -31,6 +31,11 @@ public class Lantern : PickableItem
 
     private bool isOn = false;
     private bool isHeld = false;
+
+    [Header("Shadow Targeting")]
+    public float shadowHitRange = 20f;
+    public LayerMask shadowHandLayer = ~0;
+    private ShadowHand currentTargetedShadowHand;
 
     private void Start()
     {
@@ -74,6 +79,37 @@ public class Lantern : PickableItem
         if (isOn && !isShaking)
         {
             HandleBattery();
+            UpdateShadowRaycast();
+        }
+    }
+
+    void UpdateShadowRaycast()
+    {
+        if (flashlightLight == null)
+            return;
+
+        Vector3 origin = flashlightLight.transform.position;
+        Vector3 direction = flashlightLight.transform.forward;
+
+        if (Physics.Raycast(origin, direction, out RaycastHit hit, shadowHitRange, shadowHandLayer))
+        {
+            if (hit.collider.TryGetComponent<ShadowHand>(out ShadowHand shadowHand))
+            {
+                if (currentTargetedShadowHand != null && currentTargetedShadowHand != shadowHand)
+                {
+                    currentTargetedShadowHand.setEnlightened(false);
+                }
+
+                currentTargetedShadowHand = shadowHand;
+                currentTargetedShadowHand.setEnlightened(true);
+                return;
+            }
+        }
+
+        if (currentTargetedShadowHand != null)
+        {
+            currentTargetedShadowHand.setEnlightened(false);
+            currentTargetedShadowHand = null;
         }
     }
 
