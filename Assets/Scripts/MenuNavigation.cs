@@ -3,6 +3,13 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
 
+[System.Serializable]
+public struct TooltipData
+{
+    public Button button;
+    [TextArea] public string tooltipText;
+}
+
 public class MenuNavigation : MonoBehaviour
 {
     public List<Button> buttons;

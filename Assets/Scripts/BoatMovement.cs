@@ -26,6 +26,9 @@ public class BoatMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         originalMoveSpeed = moveSpeed;
         originalTurnSpeed = turnSpeed;
+
+        SimpleMessage.Instance.ShowMessage("Nothing there... So following the light it is, i guess...");
+
     }
 
     void Update()
@@ -136,4 +139,5 @@ public class BoatMovement : MonoBehaviour
             turnSpeed = originalTurnSpeed;
         }
     }
+    
 }
