@@ -6,6 +6,7 @@ public class ShadowManager : MonoBehaviour
     [Tooltip("Settings")]
     public float shadowSpawnDistance = 10f;
     public float shadowSpawnInterval = 10f;
+    private float shadowSpawnTimer;
     public int maxShadowHands = 5;
     public GameObject shadowHandPrefab;
     public GameObject shadowHandPrefab2;
@@ -18,6 +19,7 @@ public class ShadowManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        shadowSpawnTimer = shadowSpawnInterval;
     }
 
     // Update is called once per frame
@@ -33,10 +35,11 @@ public class ShadowManager : MonoBehaviour
             Debug.LogWarning("Player GameObject is not assigned.");
             return;
         }
-        if (Time.time >= shadowSpawnInterval)
+        shadowSpawnTimer -= Time.deltaTime;
+        if (shadowSpawnTimer < 0)
         {
             SpawnShadowHand();
-            shadowSpawnInterval = Time.time + shadowSpawnInterval; // Reset the timer
+            shadowSpawnTimer = shadowSpawnInterval; // Reset the timer
         }
     }
 
@@ -49,7 +52,7 @@ public class ShadowManager : MonoBehaviour
         }
 
         GameObject prefabToUse = shadowHandPrefab;
-        if ( Random.value % 2 == 0)
+        if (shadowHandPrefab2 != null && Random.value < 0.5f)
         {
             prefabToUse = shadowHandPrefab2;
         }

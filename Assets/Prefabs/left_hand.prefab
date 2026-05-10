@@ -368,6 +368,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: left_hand
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a08d56e83172391408b2f7934f844999, type: 3}
+      propertyPath: m_TagString
+      value: shadowHand
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -413,9 +417,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
-  m_Height: 1
+  m_Height: 1.3618146
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.18090731, z: 0}
 --- !u!114 &6225307739700597695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -428,11 +432,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6744bfad24281484a80dbffebe302878, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShadowHand
-  allowedDistanceFromPlayer: 1
+  allowedDistanceFromPlayer: 0
   shorteningIntensity: 1
   shorteningInterval: 1
-  ligtheningTimer: 3
-  moveSpeed: 2
+  ligtheningTimer: 2
+  moveSpeed: 1
   player: {fileID: 0}
   camera: {fileID: 0}
 --- !u!114 &3173973560814500609

@@ -83,6 +83,7 @@ public class Lantern : PickableItem
         }
     }
 
+
     void UpdateShadowRaycast()
     {
         if (flashlightLight == null)
@@ -91,8 +92,27 @@ public class Lantern : PickableItem
         Vector3 origin = flashlightLight.transform.position;
         Vector3 direction = flashlightLight.transform.forward;
 
-        if (Physics.Raycast(origin, direction, out RaycastHit hit, shadowHitRange, shadowHandLayer))
+        // Cast all hits along the ray
+        RaycastHit[] hits = Physics.RaycastAll(origin, direction, shadowHitRange);
+
+        if (hits == null || hits.Length == 0)
         {
+            if (currentTargetedShadowHand != null)
+            {
+                currentTargetedShadowHand.setEnlightened(false);
+                currentTargetedShadowHand = null;
+            }
+            return;
+        }
+
+        // Sort by distance so nearest hits are processed first
+        System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
+
+        // Find the first hit that has a ShadowHand component
+        foreach (var hit in hits)
+        {
+            if (hit.collider == null) continue;
+
             if (hit.collider.TryGetComponent<ShadowHand>(out ShadowHand shadowHand))
             {
                 if (currentTargetedShadowHand != null && currentTargetedShadowHand != shadowHand)
@@ -106,6 +126,7 @@ public class Lantern : PickableItem
             }
         }
 
+        // No ShadowHand found in any hit
         if (currentTargetedShadowHand != null)
         {
             currentTargetedShadowHand.setEnlightened(false);

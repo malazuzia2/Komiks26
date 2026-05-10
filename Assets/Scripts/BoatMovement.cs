@@ -68,7 +68,24 @@ public class BoatMovement : MonoBehaviour
 
     public void checkIfAttacked()
     {
-        if (!snapAttackPoints.Any(point => point.activeInHierarchy)) 
+        if (snapAttackPoints == null || snapAttackPoints.Count == 0)
+        {
+            // No points -> not attacked
+            isAttacked = false;
+            moveSpeed = originalMoveSpeed;
+            turnSpeed = originalTurnSpeed;
+            return;
+        }
+
+        // Consider a point "occupied" if it is active and any of its descendant GameObjects has tag "shadowHand"
+        bool occupied = snapAttackPoints.Any(point =>
+            point != null
+            && point.activeInHierarchy
+            && point.GetComponentsInChildren<Transform>(true)
+                    .Any(t => t != point.transform && t.gameObject.CompareTag("shadowHand"))
+        );
+
+        if (occupied)
         {
             isAttacked = true;
         }

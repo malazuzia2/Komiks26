@@ -940,8 +940,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0acc0f739f6f064c85093629c8cef73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShadowManager
-  shadowSpawnDistance: 14
-  shadowSpawnInterval: 10
+  shadowSpawnDistance: 10
+  shadowSpawnInterval: 8
   maxShadowHands: 5
   shadowHandPrefab: {fileID: 3719122008838774310, guid: daec0a85f5e18734d829fd0e633176fa, type: 3}
   shadowHandPrefab2: {fileID: 2381910707447563099, guid: dee88f679021fa443961cc0bf9327a9e, type: 3}

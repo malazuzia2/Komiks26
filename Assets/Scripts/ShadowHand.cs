@@ -35,10 +35,11 @@ public class ShadowHand : MonoBehaviour
         if (enlightened)
         {
             lightAversion();
+            return;
         }
         else
         {
-            ligtheningTimer = 3f;
+            ligtheningTimer = 2f;
         }
 
         if (isAttacking)
@@ -97,6 +98,7 @@ public class ShadowHand : MonoBehaviour
     {
         Debug.Log("Shadow Hand is attacking the boat!");
         isAttacking = true;
+        player.GetComponent<BoatMovement>().isAttacked = true;
 
         SnapAttackPoint closestPoint = FindNearestAvailableSnapPoint();
 
