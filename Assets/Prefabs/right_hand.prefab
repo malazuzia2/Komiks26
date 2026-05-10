@@ -622,7 +622,8 @@ MonoBehaviour:
   shorteningIntensity: 1
   shorteningInterval: 1
   ligtheningTimer: 2
-  moveSpeed: 1
+  moveSpeed: 0.7
+  attackDelay: 1
   player: {fileID: 0}
   camera: {fileID: 0}
 --- !u!114 &-3265493593858947251

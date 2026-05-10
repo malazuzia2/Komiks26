@@ -729,7 +729,7 @@ MonoBehaviour:
   maxShadowHands: 5
   shadowHandPrefab: {fileID: 3719122008838774310, guid: daec0a85f5e18734d829fd0e633176fa, type: 3}
   shadowHandPrefab2: {fileID: 2381910707447563099, guid: dee88f679021fa443961cc0bf9327a9e, type: 3}
-  player: {fileID: 0}
+  player: {fileID: 1266251374}
   camera: {fileID: 0}
   activeShadowHands: []
 --- !u!4 &204402983
@@ -1380,6 +1380,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c8bca95f7c947b4db5fb152a0d693d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: com.cqf.urpvolumetricfog.runtime::VolumetricAdditionalLight
+  anisotropy: 0.25
+  scattering: 1
+  radius: 0.2
 --- !u!1 &380945411 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: db70f4270d2aa85439e6b0b117b33230, type: 3}
@@ -4261,15 +4264,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 372321861112414032, guid: 1c825442989b0344fa6e7f2f2779f724, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 42.31094
+      value: -4.27
       objectReference: {fileID: 0}
     - target: {fileID: 372321861112414032, guid: 1c825442989b0344fa6e7f2f2779f724, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 62.86046
+      value: -4.01
       objectReference: {fileID: 0}
     - target: {fileID: 372321861112414032, guid: 1c825442989b0344fa6e7f2f2779f724, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 40.68586
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 372321861112414032, guid: 1c825442989b0344fa6e7f2f2779f724, type: 3}
       propertyPath: m_LocalRotation.w
@@ -5995,6 +5998,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c8bca95f7c947b4db5fb152a0d693d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: com.cqf.urpvolumetricfog.runtime::VolumetricAdditionalLight
+  anisotropy: 0.25
+  scattering: 1
+  radius: 0.2
 --- !u!114 &1427219423
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7149,15 +7155,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7927512799023652795, guid: af8ea7a3a56b33844a665b2c206146cb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 42.31094
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7927512799023652795, guid: af8ea7a3a56b33844a665b2c206146cb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 62.86046
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7927512799023652795, guid: af8ea7a3a56b33844a665b2c206146cb, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 40.68586
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7927512799023652795, guid: af8ea7a3a56b33844a665b2c206146cb, type: 3}
       propertyPath: m_LocalRotation.w
@@ -7191,6 +7197,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 495010062}
+    - target: {fileID: 9153313182692991567, guid: af8ea7a3a56b33844a665b2c206146cb, type: 3}
+      propertyPath: spawnInterval
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 9153313182692991567, guid: af8ea7a3a56b33844a665b2c206146cb, type: 3}
       propertyPath: waypoints.Array.size
       value: 48
@@ -13743,6 +13753,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c8bca95f7c947b4db5fb152a0d693d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: com.cqf.urpvolumetricfog.runtime::VolumetricAdditionalLight
+  anisotropy: 0.25
+  scattering: 1
+  radius: 0.2
 --- !u!114 &1983229810
 MonoBehaviour:
   m_ObjectHideFlags: 0
