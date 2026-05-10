@@ -15,7 +15,7 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 10
   m_Fog: 1
-  m_FogColor: {r: 0.7150943, g: 0.7644049, b: 1, a: 1}
+  m_FogColor: {r: 1, g: 0.7137255, b: 0.88121194, a: 1}
   m_FogMode: 1
   m_FogDensity: 0.169
   m_LinearFogStart: 3
@@ -2998,7 +2998,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BuoySequenceManager
   buoyPrefab: {fileID: 8525519060607301276, guid: f7cb2385a1ebae543a49b71dc24bdeb3, type: 3}
   player: {fileID: 495010062}
-  spawnDistance: 50
+  spawnDistance: 35
   lateralSpread: 50
 --- !u!114 &1121176671
 MonoBehaviour:
@@ -4664,7 +4664,7 @@ Light:
   serializedVersion: 12
   m_Type: 2
   m_Color: {r: 1, g: 0, b: 0, a: 1}
-  m_Intensity: 0.6
+  m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -5533,7 +5533,7 @@ MonoBehaviour:
   constellationLines: {fileID: 761341725}
   zoomFOV: 15
   starTargetGroup: {fileID: 582591410}
-  tolerance: 6
+  tolerance: 7
   pickupSound: {fileID: 8300000, guid: c27df9186990f2840bc2848d661958f1, type: 3}
   finishedSound: {fileID: 8300000, guid: 5d554357101d3f145a2664fe163d0e9a, type: 3}
   holdTime: 2.5
@@ -6815,8 +6815,8 @@ ParticleSystem:
     startColor:
       serializedVersion: 2
       minMaxState: 2
-      minColor: {r: 0.6320754, g: 0.7758621, b: 1, a: 0.18039216}
-      maxColor: {r: 0.8584906, g: 0.946934, b: 1, a: 0.24313726}
+      minColor: {r: 0.4898814, g: 0.28675678, b: 0.8490566, a: 0.18039216}
+      maxColor: {r: 0.93962264, g: 0.111690946, b: 0.2950513, a: 0.24313726}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
