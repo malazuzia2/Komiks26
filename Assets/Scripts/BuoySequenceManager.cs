@@ -21,9 +21,15 @@ public class BuoySequenceManager : MonoBehaviour
 
     public void SpawnNextBuoy()
     {
-        Vector3 spawnPos = player.position + (player.forward * spawnDistance);
+         Vector3 origin = Camera.main.transform.position;
 
-        spawnPos += player.right * Random.Range(-lateralSpread, lateralSpread);
+         Vector3 lookDirection = Camera.main.transform.forward;
+        lookDirection.y = 0;  
+        lookDirection.Normalize();
+
+         Vector3 spawnPos = origin + lookDirection * spawnDistance;
+
+        spawnPos += Camera.main.transform.right * Random.Range(-lateralSpread, lateralSpread);
 
         spawnPos.y = player.position.y;
 

@@ -38,6 +38,10 @@ public class Lantern : PickableItem
     private ShadowHand currentTargetedShadowHand;
 
     public float raycastRadius = 0.25f; // Increase this to widen the area the flashlight detects (tweak in Inspector)
+    [Header("Sounds")]
+    public AudioClip pickupSound;
+    public AudioSource failureHum;
+    public AudioClip clickSound;
 
     private void Start()
     {
@@ -51,8 +55,14 @@ public class Lantern : PickableItem
     
     public override void OnPickUp(Transform hand)
     {
+        if (pickupSound != null)
+        {
+            AudioSource.PlayClipAtPoint(pickupSound, transform.position, 0.7f);
+        }
+
         base.OnPickUp(hand);  
         isHeld = true;
+        
     }
 
     public override void OnDrop()
@@ -70,6 +80,10 @@ public class Lantern : PickableItem
 
         if (Mouse.current.rightButton.wasPressedThisFrame && !isShaking)
         {
+            if (clickSound != null)
+            {
+                AudioSource.PlayClipAtPoint(clickSound, transform.position, 0.7f);
+            }
             ToggleLight();
         }
 
@@ -189,10 +203,16 @@ public class Lantern : PickableItem
         float totalPercent = currentBattery / maxBattery;
         flashlightLight.intensity = Mathf.Lerp(minIntensity, baseIntensity, totalPercent);
 
-        if (currentBattery < flickerThreshold && currentBattery > 0)
+         if (currentBattery < flickerThreshold && currentBattery > 0)
         {
-            float f = currentBattery / flickerThreshold;
+             if (!failureHum.isPlaying)
+             {
+                failureHum.Play();
+             }
 
+             failureHum.pitch = Mathf.Lerp(1.5f, 1.0f, currentBattery / flickerThreshold);
+
+            float f = currentBattery / flickerThreshold;
             flickerTimer -= Time.deltaTime;
 
             if (flickerTimer <= 0)
@@ -201,24 +221,32 @@ public class Lantern : PickableItem
                 {
                     isGlitching = true;
                     flashlightLight.enabled = false;
-                    flickerTimer = glitchDuration; 
+                    flickerTimer = glitchDuration;
+                     
                 }
                 else
                 {
                     isGlitching = false;
                     flashlightLight.enabled = true;
-                    
                     float nextWait = Mathf.Lerp(minTimeBetweenGlitches, maxTimeBetweenGlitches, f);
-                    flickerTimer = nextWait * Random.Range(0.8f, 1.2f);  
+                    flickerTimer = nextWait * Random.Range(0.8f, 1.2f);
                 }
             }
         }
-        else if (currentBattery > flickerThreshold)
+        else
         {
-            flashlightLight.enabled = true;
-            isGlitching = false;
+             if (failureHum.isPlaying)
+             {
+                failureHum.Stop();
+             }
+
+            if (currentBattery > flickerThreshold)
+            {
+                flashlightLight.enabled = true;
+                isGlitching = false;
+            }
         }
-         
+
         if (currentBattery <= 0)
         {
             isOn = false;

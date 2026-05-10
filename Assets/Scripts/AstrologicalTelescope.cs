@@ -1,17 +1,26 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using System.Collections;
 
 public class AstrologicalTelescope : PickableItem
 {
-    [Header("Ustawienia Lunety")]
-    public GameObject telescopeUI;      // Przeci¹gnij tu obiekt TelescopeView
-    public Image constellationLines;    // Przeci¹gnij tu obrazek linii
-    public float zoomFOV = 15f;         // Przybli¿enie (im mniejsze, tym wiêkszy zoom)
+    [Header("Luneta")]
+    public GameObject telescopeUI;       
+    public Image constellationLines;     
+    public float zoomFOV = 15f;         
 
-    [Header("Logika Gwiazd")]
-    public Transform starTargetGroup;   // Przeci¹gnij tu StarTargetGroup z nieba
-    public float tolerance = 10f;        // Jak dok³adnie trzeba wycelowaæ (stopnie)
+    [Header("Gwiazdy")]
+    public Transform starTargetGroup;  
+    public float tolerance = 10f;
+
+    [Header("Sounds")]
+    public AudioClip pickupSound;
+    public AudioClip finishedSound;
+
+    public float holdTime = 3.0f;
+    private float currentHoldTimer = 0f;
+    private bool isSolving = false;
 
     private float defaultFOV;
     private bool isZooming = false;
@@ -25,6 +34,10 @@ public class AstrologicalTelescope : PickableItem
 
     public override void OnPickUp(Transform hand)
     {
+        if (pickupSound != null)
+        {
+            AudioSource.PlayClipAtPoint(pickupSound, transform.position, 0.7f);
+        }
         base.OnPickUp(hand);
         isHeld = true;
     }
@@ -67,50 +80,99 @@ public class AstrologicalTelescope : PickableItem
         if (!isHeld) return;
 
          if (Mouse.current.rightButton.isPressed)
-        {
+         {
             EnterZoom();
 
              if (NavigationManager.Instance.isSearchingPhase)
-            {
+             {
                 CheckStars();
-            }
-        }
-        else
-        {
+             }
+         }
+         else
+         {
             ExitZoom();
-        }
+         }
     }
 
-    [Range(0, 1)] public float minOpacity = 0.2f;  
+    [Range(0, 1)] public float minOpacity = 0.2f;
 
     void CheckStars()
     {
         if (starTargetGroup == null) return;
-         
+
         Vector3 dirToStars = (starTargetGroup.position - Camera.main.transform.position).normalized;
         float angle = Vector3.Angle(Camera.main.transform.forward, dirToStars);
+        Color currentColor = constellationLines.color;
 
-        Debug.Log("Aktualny k¹t do gwiazd: " + angle);
-
-        float f = Mathf.Clamp01(1f - (angle / 20f));
-         
-        float finalAlpha = Mathf.Lerp(minOpacity, 1f, f);
-         
-        if (constellationLines != null)
-        {
-            constellationLines.color = new Color(constellationLines.color.r, constellationLines.color.g, constellationLines.color.b, finalAlpha);
-        }
-         
         if (angle < tolerance)
         {
-            constellationLines.color = Color.cyan;  
-            NavigationManager.Instance.OnStarsMatched();
-            solved = true;
+            isSolving = true;
+            currentHoldTimer += Time.deltaTime;
 
-            if (starTargetGroup != null)
+            float progress = currentHoldTimer / holdTime;
+
+             float currentOpacity = Mathf.Lerp(0.2f, 1.0f, progress);
+
+            constellationLines.color = currentColor;
+
+            if (currentHoldTimer >= holdTime)
             {
-                starTargetGroup.gameObject.SetActive(false);
+                CompletePuzzle();
             }
         }
+        else
+        {
+            ResetHold();
+            float f = Mathf.Clamp01(1f - (angle / 20f));
+            float finalAlpha = Mathf.Lerp(minOpacity, 1f, f);
+            constellationLines.color = new Color(1, 1, 1, finalAlpha);
+        }
+    
+
+    }
+    void ResetHold()
+    {
+        if (isSolving)
+        {
+            currentHoldTimer = 0f;
+            isSolving = false;
+             constellationLines.color = new Color(1, 1, 1, minOpacity);
+        }
+    }
+
+    void CompletePuzzle()
+    {
+        if (finishedSound != null)
+        {
+            AudioSource.PlayClipAtPoint(finishedSound, transform.position, 0.7f);
+        }
+        solved = true;
+        isSolving = false;
+        if (starTargetGroup != null) starTargetGroup.gameObject.SetActive(false);
+
+        NavigationManager.Instance.OnStarsMatched();
+     }
+
+
+    public void SetNewTarget(Transform newStars, Sprite newImage)
+    {
+        starTargetGroup = newStars;          
+        constellationLines.sprite = newImage;  
+        solved = false;                  
+
+        constellationLines.color = new Color(1, 1, 1, minOpacity);
+    }
+
+
+    IEnumerator FadeOutStars(GameObject group)
+    {
+        float duration = 3.0f; 
+        float elapsed = 0; 
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime; 
+            yield return null;
+        }
+        group.SetActive(false);
     }
 }
