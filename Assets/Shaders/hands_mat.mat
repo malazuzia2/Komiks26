@@ -24,18 +24,18 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 716010ae70e1b4e84ba6baf439991fae, type: 3}
+        m_Texture: {fileID: 2800000, guid: afcbd2e2d921fc84fa509353a5935b65, type: 3}
         m_Scale: {x: 1.1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
     - _Alpha: 1
-    - _CoreDarkness: 3.24
+    - _CoreDarkness: 2.94
     - _FlowSpeed: 0.5
     - _Softness: 0.08
     - _UVScaleX: 4
     m_Colors:
-    - _EnergyColor: {r: 1, g: 0, b: 0, a: 1}
+    - _EnergyColor: {r: 1, g: 1, b: 1, a: 1}
     - _UVScale: {r: 4, g: 4, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

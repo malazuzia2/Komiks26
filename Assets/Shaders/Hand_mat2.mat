@@ -30,12 +30,16 @@ Material:
     m_Ints: []
     m_Floats:
     - _Alpha: 1
+    - _BurnWidth: 0.01
     - _CoreDarkness: 5.44
     - _Cutoff: 0.07
+    - _EmissionIntensity: 0.5
     - _FlowSpeed: 0.3
+    - _RepelAmount: 0
     - _Softness: 10.22
     m_Colors:
     - _BaseColor: {r: 0, g: 0, b: 0, a: 1}
+    - _EmissionColor: {r: 22.627417, g: 21.968525, b: 0, a: 1}
     - _EnergyColor: {r: 0.6226415, g: 0.044054817, b: 0.044054817, a: 1}
     - _UVScale: {r: 4, g: 4, b: 0, a: 0}
   m_BuildTextureStacks: []
