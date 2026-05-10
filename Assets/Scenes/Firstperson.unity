@@ -11832,8 +11832,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjectSpawner
   prefabs:
-  - {fileID: 1794808012909040338, guid: ad3059fdddd1217428b06d9386aa14d7, type: 3}
-  - {fileID: 421642971504974304, guid: 931b50f111e994b499d624e032b11e8c, type: 3}
+  - {fileID: 6918227675887642787, guid: 802691ac651572b42bd7752e330b4e7f, type: 3}
+  - {fileID: 3938397480621153696, guid: 3a053c80696818f4d8a01db4427fe0b6, type: 3}
+  - {fileID: 5205852086737633526, guid: 00ed77b78a5a92644a06a1c0cfbce64a, type: 3}
+  - {fileID: 9028011387451644342, guid: d64a728bd38ff234796250dd3e541df3, type: 3}
+  - {fileID: 4379865919808617646, guid: 6ac9468affa165c459d22346a5ffea9c, type: 3}
   player: {fileID: 495010062}
   minSpawnDistance: 5
   maxSpawnDistance: 40
