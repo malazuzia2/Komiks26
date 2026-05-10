@@ -13,7 +13,7 @@ public class ShadowHand : MonoBehaviour
     public float moveSpeed = 2f;
     private bool isAttacking = false;
     private bool enlightened = false;
-    //ZGRAJ DELAY Z ANIMACJ¥
+    //ZGRAJ DELAY Z ANIMACJï¿½
     public float attackDelay = 1f;
     public GameObject player;
     public GameObject camera;
@@ -53,7 +53,7 @@ public class ShadowHand : MonoBehaviour
         if (distanceFromPlayer > shadowManager.shadowSpawnDistance + 2f)
         {
             Death();
-            //DISOLVE RÊKI
+            //DISOLVE Rï¿½KI
             return;
         }
 
@@ -63,7 +63,7 @@ public class ShadowHand : MonoBehaviour
         if (distanceFromPlayer > allowedDistanceFromPlayer)
         {
             transform.position += directionToPlayer * moveSpeed * Time.deltaTime;
-            //ANIMACJA ZBLIZANIA SIÊ REKI
+            //ANIMACJA ZBLIZANIA SIï¿½ REKI
         }
         else if (distanceFromPlayer <= allowedDistanceFromPlayer)
         {
@@ -87,11 +87,11 @@ public class ShadowHand : MonoBehaviour
             return;
 
         isAttacking = true;
-        //DODAJ ANIMACJÊ ATAKU
+        //DODAJ ANIMACJï¿½ ATAKU
         
         Collider selfCol = GetComponent<Collider>();
         if (selfCol != null)
-            selfCol.enabled = false;
+            selfCol.isTrigger = true;
 
         StartCoroutine(AttackDelayCoroutine());
     }
@@ -175,7 +175,7 @@ public class ShadowHand : MonoBehaviour
         {
             Vector3 directionAwayFromPlayer = (transform.position - player.transform.position).normalized;
             transform.position += directionAwayFromPlayer * 3 * moveSpeed * Time.deltaTime;
-            //ANIMACJA RUCHU DO TY£U RÊKI
+            //ANIMACJA RUCHU DO TYï¿½U Rï¿½KI
         }
     }
 

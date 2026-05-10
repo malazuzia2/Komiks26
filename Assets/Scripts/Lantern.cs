@@ -109,7 +109,7 @@ public class Lantern : PickableItem
         Vector3 direction = flashlightLight.transform.forward;
 
         // Use SphereCastAll to create a wider detection area (approximate cone)
-        RaycastHit[] hits = Physics.SphereCastAll(origin, raycastRadius, direction, shadowHitRange, shadowHandLayer, QueryTriggerInteraction.Ignore);
+        RaycastHit[] hits = Physics.SphereCastAll(origin, raycastRadius, direction, shadowHitRange, shadowHandLayer, QueryTriggerInteraction.Collide);
 
         if (hits == null || hits.Length == 0)
         {
@@ -129,7 +129,8 @@ public class Lantern : PickableItem
         {
             if (hit.collider == null) continue;
 
-            if (hit.collider.TryGetComponent<ShadowHand>(out ShadowHand shadowHand))
+            ShadowHand shadowHand = GetShadowHandFromCollider(hit.collider);
+            if (shadowHand != null)
             {
                 if (currentTargetedShadowHand != null && currentTargetedShadowHand != shadowHand)
                 {
@@ -148,6 +149,18 @@ public class Lantern : PickableItem
             currentTargetedShadowHand.setEnlightened(false);
             currentTargetedShadowHand = null;
         }
+    }
+
+    private ShadowHand GetShadowHandFromCollider(Collider collider)
+    {
+        if (collider == null) return null;
+
+        if (collider.TryGetComponent<ShadowHand>(out ShadowHand shadowHand))
+        {
+            return shadowHand;
+        }
+
+        return collider.GetComponentInParent<ShadowHand>();
     }
 
     IEnumerator ShakeAndRecharge()
