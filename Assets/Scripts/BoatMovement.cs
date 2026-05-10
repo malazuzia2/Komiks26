@@ -13,6 +13,10 @@ public class BoatMovement : MonoBehaviour
     private float moveInput;
     private float turnInput;
 
+    [Header("Sounds")]
+    //public AudioClip pantingSound;
+    public AudioSource oddychanie;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -26,28 +30,66 @@ public class BoatMovement : MonoBehaviour
         if (keyboard == null) return;
 
          moveInput = 0;
-        if (keyboard.wKey.isPressed) moveInput = 1f;
-        if (keyboard.sKey.isPressed) moveInput = -1f;
-
-         turnInput = 0;
-        if (keyboard.dKey.isPressed) turnInput = 1f;
-        if (keyboard.aKey.isPressed) turnInput = -1f;
+        if (keyboard.wKey.isPressed)
+        {
+            moveInput = 1f;
+             
+        }
+        if (keyboard.sKey.isPressed)
+        {
+            moveInput = -1f;
+             
+        }
+            turnInput = 0;
+        if (keyboard.dKey.isPressed)
+        {
+            turnInput = 1f;
+             
+        }
+        if (keyboard.aKey.isPressed)
+        {
+            turnInput = -1f;
+            
+        }
+        
     }
 
     void FixedUpdate()
     {
          if (Mathf.Abs(moveInput) > 0.1f)
-        {
+         {
             rb.AddRelativeForce(Vector3.left * moveInput * moveSpeed);
-
-           // rb.AddRelativeForce(Vector3.forward * moveInput * moveSpeed);
+            
+            // rb.AddRelativeForce(Vector3.forward * moveInput * moveSpeed);
         }
+        
 
-         if (Mathf.Abs(turnInput) > 0.1f)
-        {
+
+        if (Mathf.Abs(turnInput) > 0.1f)
+         {
             float rotation = turnInput * turnSpeed * Time.fixedDeltaTime;
             Quaternion turnRotation = Quaternion.Euler(0f, rotation, 0f);
+
             rb.MoveRotation(rb.rotation * turnRotation);
+            
         }
+
+        bool czyLodzSieRusza = Mathf.Abs(moveInput) > 0.1f || Mathf.Abs(turnInput) > 0.1f;
+
+        if (czyLodzSieRusza)
+        {
+            if (!oddychanie.isPlaying)
+            {
+                oddychanie.Play();
+            }
+        }
+        else
+        {
+             if (oddychanie.isPlaying)
+            {
+                oddychanie.Stop();
+            }
+        }
+
     }
 }

@@ -1,17 +1,22 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using System.Collections;
 
 public class AstrologicalTelescope : PickableItem
 {
-    [Header("Ustawienia Lunety")]
-    public GameObject telescopeUI;      // Przeci¹gnij tu obiekt TelescopeView
-    public Image constellationLines;    // Przeci¹gnij tu obrazek linii
-    public float zoomFOV = 15f;         // Przybli¿enie (im mniejsze, tym wiêkszy zoom)
+    [Header("Luneta")]
+    public GameObject telescopeUI;       
+    public Image constellationLines;     
+    public float zoomFOV = 15f;         
 
-    [Header("Logika Gwiazd")]
-    public Transform starTargetGroup;   // Przeci¹gnij tu StarTargetGroup z nieba
-    public float tolerance = 10f;        // Jak dok³adnie trzeba wycelowaæ (stopnie)
+    [Header("Gwiazdy")]
+    public Transform starTargetGroup;  
+    public float tolerance = 10f;
+
+    [Header("Sounds")]
+    public AudioClip pickupSound;
+    public AudioClip finishedSound;
 
     private float defaultFOV;
     private bool isZooming = false;
@@ -25,6 +30,10 @@ public class AstrologicalTelescope : PickableItem
 
     public override void OnPickUp(Transform hand)
     {
+        if (pickupSound != null)
+        {
+            AudioSource.PlayClipAtPoint(pickupSound, transform.position, 0.7f);
+        }
         base.OnPickUp(hand);
         isHeld = true;
     }
@@ -67,18 +76,18 @@ public class AstrologicalTelescope : PickableItem
         if (!isHeld) return;
 
          if (Mouse.current.rightButton.isPressed)
-        {
+         {
             EnterZoom();
 
              if (NavigationManager.Instance.isSearchingPhase)
-            {
+             {
                 CheckStars();
-            }
-        }
-        else
-        {
+             }
+         }
+         else
+         {
             ExitZoom();
-        }
+         }
     }
 
     [Range(0, 1)] public float minOpacity = 0.2f;  
@@ -90,7 +99,7 @@ public class AstrologicalTelescope : PickableItem
         Vector3 dirToStars = (starTargetGroup.position - Camera.main.transform.position).normalized;
         float angle = Vector3.Angle(Camera.main.transform.forward, dirToStars);
 
-        Debug.Log("Aktualny k¹t do gwiazd: " + angle);
+        Debug.Log("Kat do gwiazd: " + angle);
 
         float f = Mathf.Clamp01(1f - (angle / 20f));
          
@@ -106,11 +115,30 @@ public class AstrologicalTelescope : PickableItem
             constellationLines.color = Color.cyan;  
             NavigationManager.Instance.OnStarsMatched();
             solved = true;
-
+            if (finishedSound != null)
+            {
+                AudioSource.PlayClipAtPoint(finishedSound, transform.position, 0.7f);
+            }
             if (starTargetGroup != null)
             {
+                StartCoroutine(FadeOutStars(starTargetGroup.gameObject));
+
+                
+
                 starTargetGroup.gameObject.SetActive(false);
             }
         }
+
+    }
+    IEnumerator FadeOutStars(GameObject group)
+    {
+        float duration = 3.0f; 
+        float elapsed = 0; 
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime; 
+            yield return null;
+        }
+        group.SetActive(false);
     }
 }
