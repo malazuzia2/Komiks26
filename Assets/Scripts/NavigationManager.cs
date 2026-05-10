@@ -15,8 +15,7 @@ public class NavigationManager : MonoBehaviour
 
     void Start()
     {
-        // Na starcie wszystkie gwiazdy s¹ wy³¹czone
-        foreach (GameObject group in starGroups) group.SetActive(false);
+         foreach (GameObject group in starGroups) group.SetActive(false);
     }
 
     public void StartLookingForStars()

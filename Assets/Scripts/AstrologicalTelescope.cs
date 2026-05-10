@@ -18,6 +18,10 @@ public class AstrologicalTelescope : PickableItem
     public AudioClip pickupSound;
     public AudioClip finishedSound;
 
+    public float holdTime = 3.0f;
+    private float currentHoldTimer = 0f;
+    private bool isSolving = false;
+
     private float defaultFOV;
     private bool isZooming = false;
     private bool isHeld = false;
@@ -90,46 +94,66 @@ public class AstrologicalTelescope : PickableItem
          }
     }
 
-    [Range(0, 1)] public float minOpacity = 0.2f;  
+    [Range(0, 1)] public float minOpacity = 0.2f;
 
     void CheckStars()
     {
         if (starTargetGroup == null) return;
-         
+
         Vector3 dirToStars = (starTargetGroup.position - Camera.main.transform.position).normalized;
         float angle = Vector3.Angle(Camera.main.transform.forward, dirToStars);
+        Color currentColor = constellationLines.color;
 
-        Debug.Log("Kat do gwiazd: " + angle);
-
-        float f = Mathf.Clamp01(1f - (angle / 20f));
-         
-        float finalAlpha = Mathf.Lerp(minOpacity, 1f, f);
-         
-        if (constellationLines != null)
-        {
-            constellationLines.color = new Color(constellationLines.color.r, constellationLines.color.g, constellationLines.color.b, finalAlpha);
-        }
-         
         if (angle < tolerance)
         {
-            constellationLines.color = Color.cyan;  
-            NavigationManager.Instance.OnStarsMatched();
-            solved = true;
-            if (finishedSound != null)
-            {
-                AudioSource.PlayClipAtPoint(finishedSound, transform.position, 0.7f);
-            }
-            if (starTargetGroup != null)
-            {
-                StartCoroutine(FadeOutStars(starTargetGroup.gameObject));
+            isSolving = true;
+            currentHoldTimer += Time.deltaTime;
 
-                
+            float progress = currentHoldTimer / holdTime;
 
-                starTargetGroup.gameObject.SetActive(false);
+             float currentOpacity = Mathf.Lerp(0.2f, 1.0f, progress);
+
+            constellationLines.color = currentColor;
+
+            if (currentHoldTimer >= holdTime)
+            {
+                CompletePuzzle();
             }
         }
+        else
+        {
+            ResetHold();
+            float f = Mathf.Clamp01(1f - (angle / 20f));
+            float finalAlpha = Mathf.Lerp(minOpacity, 1f, f);
+            constellationLines.color = new Color(1, 1, 1, finalAlpha);
+        }
+    
 
     }
+    void ResetHold()
+    {
+        if (isSolving)
+        {
+            currentHoldTimer = 0f;
+            isSolving = false;
+             constellationLines.color = new Color(1, 1, 1, minOpacity);
+        }
+    }
+
+    void CompletePuzzle()
+    {
+        if (finishedSound != null)
+        {
+            AudioSource.PlayClipAtPoint(finishedSound, transform.position, 0.7f);
+        }
+        solved = true;
+        isSolving = false;
+        if (starTargetGroup != null) starTargetGroup.gameObject.SetActive(false);
+
+        NavigationManager.Instance.OnStarsMatched();
+     }
+
+
     public void SetNewTarget(Transform newStars, Sprite newImage)
     {
         starTargetGroup = newStars;          

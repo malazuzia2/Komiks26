@@ -628,7 +628,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &204402982
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4880,7 +4880,8 @@ MonoBehaviour:
   tolerance: 6
   pickupSound: {fileID: 8300000, guid: c27df9186990f2840bc2848d661958f1, type: 3}
   finishedSound: {fileID: 8300000, guid: 5d554357101d3f145a2664fe163d0e9a, type: 3}
-  minOpacity: 0.2
+  holdTime: 2.5
+  minOpacity: 0.096
 --- !u!23 &1672306917
 MeshRenderer:
   m_ObjectHideFlags: 0
