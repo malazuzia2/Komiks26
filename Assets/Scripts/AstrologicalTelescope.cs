@@ -130,6 +130,16 @@ public class AstrologicalTelescope : PickableItem
         }
 
     }
+    public void SetNewTarget(Transform newStars, Sprite newImage)
+    {
+        starTargetGroup = newStars;          
+        constellationLines.sprite = newImage;  
+        solved = false;                  
+
+        constellationLines.color = new Color(1, 1, 1, minOpacity);
+    }
+
+
     IEnumerator FadeOutStars(GameObject group)
     {
         float duration = 3.0f; 
