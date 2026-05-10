@@ -7,6 +7,8 @@ public class HighlightEffect : MonoBehaviour
     private List<Color[]> originalEmissionColors = new List<Color[]>();
     private bool isHighlighted = false;
 
+    private static bool wasShown = false;
+
     [Header("Ustawienia Podœwietlenia")]
     [ColorUsage(true, true)]
     public Color highlightColor = new Color(1.5f, 1.5f, 1.5f); // Jasne œwiecenie HDR
@@ -41,6 +43,15 @@ public class HighlightEffect : MonoBehaviour
     {
         if (isHighlighted == on) return;
         isHighlighted = on;
+
+        if (on && !wasShown)
+        {
+            if (SimpleMessage.Instance != null)
+            {
+                SimpleMessage.Instance.ShowMessage("Press LBM to interact.");
+                wasShown = true; 
+            }
+        }
 
         for (int r = 0; r < allRenderers.Length; r++)
         {

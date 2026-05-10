@@ -43,6 +43,7 @@ public class Lantern : PickableItem
     public AudioSource failureHum;
     public AudioClip clickSound;
 
+    private bool wasShowed = false;
     private void Start()
     {
         if (flashlightLight != null)
@@ -223,7 +224,8 @@ public class Lantern : PickableItem
                 failureHum.Play();
              }
 
-             failureHum.pitch = Mathf.Lerp(1.5f, 1.0f, currentBattery / flickerThreshold);
+            
+            failureHum.pitch = Mathf.Lerp(1.5f, 1.0f, currentBattery / flickerThreshold);
 
             float f = currentBattery / flickerThreshold;
             flickerTimer -= Time.deltaTime;
@@ -264,6 +266,7 @@ public class Lantern : PickableItem
         {
             isOn = false;
             flashlightLight.enabled = false;
+            
         }
     }
 

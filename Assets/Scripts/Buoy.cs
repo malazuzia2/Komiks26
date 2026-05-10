@@ -17,6 +17,12 @@ public class Buoy : MonoBehaviour
         if (isUsed) return 0;
         isUsed = true;
 
+        if (BuoySequenceManager.Instance != null)
+        {
+            BuoySequenceManager.Instance.OnBuoyCollected();
+        }
+
+
         if (NavigationManager.Instance != null)
         {
             NavigationManager.Instance.StartLookingForStars();

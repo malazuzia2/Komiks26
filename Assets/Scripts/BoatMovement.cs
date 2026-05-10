@@ -2,7 +2,8 @@ using NUnit.Framework.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.InputSystem; 
+using UnityEngine.InputSystem;
+using System.Collections.Generic;
 
 public class BoatMovement : MonoBehaviour
 {
@@ -21,15 +22,16 @@ public class BoatMovement : MonoBehaviour
     //public AudioClip pantingSound;
     public AudioSource oddychanie;
 
+    private bool tooltip = false;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         originalMoveSpeed = moveSpeed;
         originalTurnSpeed = turnSpeed;
-
-        SimpleMessage.Instance.ShowMessage("Nothing there... So following the light it is, i guess...");
+ 
 
     }
+ 
 
     void Update()
     {
@@ -94,6 +96,11 @@ public class BoatMovement : MonoBehaviour
 
         if (czyLodzSieRusza)
         {
+            if (!tooltip)
+            {
+                               SimpleMessage.Instance.ShowMessage("Oh. I guess, I'll be heading towards light... How ironic");
+                tooltip = true;
+            }
             if (!oddychanie.isPlaying)
             {
                 oddychanie.Play();

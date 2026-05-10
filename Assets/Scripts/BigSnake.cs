@@ -28,7 +28,7 @@ public class BigSnake : MonoBehaviour
     private BoatMovement boatMovementRef;
     private bool boatMovementEnabledBefore;
 
-
+    public AudioSource monsterAudioSource;
     private void Awake()
     {
         impulseSource = GetComponent<CinemachineImpulseSource>();

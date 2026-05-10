@@ -6,8 +6,7 @@ public class GameUIManager : MonoBehaviour
 {
     public GameObject mainMenuPanel;
     public GameObject pauseMenuPanel;
-    public GameObject pointer;
-    public GameObject endGame;
+     public GameObject endGame;
 
     private bool isPaused = false;
 
@@ -15,8 +14,7 @@ public class GameUIManager : MonoBehaviour
     { 
         mainMenuPanel.SetActive(true);
         pauseMenuPanel.SetActive(false);
-        pointer.SetActive(false);
-        Time.timeScale = 0f;  
+         Time.timeScale = 0f;  
         Cursor.lockState = CursorLockMode.None;  
         Cursor.visible = true;
     }
@@ -69,8 +67,7 @@ public class GameUIManager : MonoBehaviour
         }
         else
         {
-            pointer.SetActive(true);
-            Time.timeScale = 1f;
+             Time.timeScale = 1f;
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
         }

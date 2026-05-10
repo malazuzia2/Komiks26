@@ -10,7 +10,6 @@ public class SimpleMessage : MonoBehaviour
     [SerializeField] private TextMeshProUGUI textElement;
 
     private bool isVisible = false;
-
     private void Awake()
     {
         Instance = this;
@@ -19,13 +18,12 @@ public class SimpleMessage : MonoBehaviour
 
     private void Update()
     {
-        // Jeœli panel jest widoczny i klikniêto lewy przycisk myszy
-        if (isVisible && Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
+         if (isVisible && Keyboard.current != null && Keyboard.current.qKey.wasPressedThisFrame)
         {
             HideMessage();
         }
-    }
 
+    }
     public void ShowMessage(string text)
     {
         textElement.text = text;
@@ -46,4 +44,14 @@ public class SimpleMessage : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
+
+    public static SimpleMessage GetInstance()
+    {
+        if (Instance == null)
+        {
+            Instance = FindObjectOfType<SimpleMessage>();
+        }
+        return Instance;
+    }
+
 }

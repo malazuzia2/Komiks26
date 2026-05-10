@@ -21,6 +21,9 @@ public class ShadowHand : MonoBehaviour
     private CinemachineImpulseSource impulseSource;
     private SnapAttackPoint occupiedPoint;
 
+
+    private static bool hasShownFlashlightHint = false;
+
     private void Awake()
     {
         impulseSource = GetComponent<CinemachineImpulseSource>();
@@ -50,6 +53,12 @@ public class ShadowHand : MonoBehaviour
         }
 
         float distanceFromPlayer = Vector3.Distance(transform.position, player.transform.position);
+        if (!hasShownFlashlightHint && distanceFromPlayer < (allowedDistanceFromPlayer + 5f))
+        {
+            SimpleMessage.Instance.ShowMessage("Fuck, fuck, fuck... Where is my flashlight!");
+            hasShownFlashlightHint = true;
+        }
+
         if (distanceFromPlayer > shadowManager.shadowSpawnDistance + 2f)
         {
             Death();

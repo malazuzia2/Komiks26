@@ -33,6 +33,8 @@ public class AstrologicalTelescope : PickableItem
     private bool isZooming = false;
     private bool isHeld = false;
     private bool solved = false;
+    private bool hasShownHint = false;
+
 
     private Material uiMat;
     private List<Material> currentStarMaterials = new List<Material>();
@@ -58,6 +60,8 @@ public class AstrologicalTelescope : PickableItem
 
         base.OnPickUp(hand);
         isHeld = true;
+
+
     }
 
     public override void OnDrop()
@@ -70,6 +74,13 @@ public class AstrologicalTelescope : PickableItem
     void Update()
     {
         if (!isHeld || solved) return;
+
+        if (!isZooming && !hasShownHint)
+        {
+            SimpleMessage.Instance.ShowMessage("Hold RBM to zoom in on the stars, and hold on there for a second.");
+            hasShownHint = true;
+        }
+
 
         if (Mouse.current.rightButton.isPressed)
         {
