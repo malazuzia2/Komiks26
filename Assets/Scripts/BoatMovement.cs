@@ -30,8 +30,6 @@ public class BoatMovement : MonoBehaviour
 
         if (isAttacked)
         {
-            originalMoveSpeed = moveSpeed;
-            originalTurnSpeed = turnSpeed;
             moveSpeed = 0f;
             turnSpeed = 0f;
             return;

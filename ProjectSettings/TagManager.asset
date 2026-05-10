@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Boat
   - BoatSnapPoint
+  - shadowHand
   layers:
   - Default
   - TransparentFX

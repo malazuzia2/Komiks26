@@ -37,6 +37,8 @@ public class Lantern : PickableItem
     public LayerMask shadowHandLayer = ~0;
     private ShadowHand currentTargetedShadowHand;
 
+    public float raycastRadius = 0.25f; // Increase this to widen the area the flashlight detects (tweak in Inspector)
+
     private void Start()
     {
         if (flashlightLight != null)
@@ -92,8 +94,8 @@ public class Lantern : PickableItem
         Vector3 origin = flashlightLight.transform.position;
         Vector3 direction = flashlightLight.transform.forward;
 
-        // Cast all hits along the ray
-        RaycastHit[] hits = Physics.RaycastAll(origin, direction, shadowHitRange);
+        // Use SphereCastAll to create a wider detection area (approximate cone)
+        RaycastHit[] hits = Physics.SphereCastAll(origin, raycastRadius, direction, shadowHitRange, shadowHandLayer, QueryTriggerInteraction.Ignore);
 
         if (hits == null || hits.Length == 0)
         {

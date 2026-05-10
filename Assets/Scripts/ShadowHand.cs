@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 using Unity.Cinemachine;
+using System.Collections;
 
 public class ShadowHand : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class ShadowHand : MonoBehaviour
     public float moveSpeed = 2f;
     private bool isAttacking = false;
     private bool enlightened = false;
+    //ZGRAJ DELAY Z ANIMACJ¥
+    public float attackDelay = 1f;
     public GameObject player;
     public GameObject camera;
     private ShadowManager shadowManager;
@@ -23,7 +26,6 @@ public class ShadowHand : MonoBehaviour
         impulseSource = GetComponent<CinemachineImpulseSource>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (player == null)
@@ -44,13 +46,14 @@ public class ShadowHand : MonoBehaviour
 
         if (isAttacking)
         {
-            return; // Skip movement while attacking
+            return; 
         }
 
         float distanceFromPlayer = Vector3.Distance(transform.position, player.transform.position);
         if (distanceFromPlayer > shadowManager.shadowSpawnDistance + 2f)
         {
             Death();
+            //DISOLVE RÊKI
             return;
         }
 
@@ -60,6 +63,7 @@ public class ShadowHand : MonoBehaviour
         if (distanceFromPlayer > allowedDistanceFromPlayer)
         {
             transform.position += directionToPlayer * moveSpeed * Time.deltaTime;
+            //ANIMACJA ZBLIZANIA SIÊ REKI
         }
         else if (distanceFromPlayer <= allowedDistanceFromPlayer)
         {
@@ -67,7 +71,7 @@ public class ShadowHand : MonoBehaviour
             if (shorteningInterval >= 2f)
             {
                 allowedDistanceFromPlayer -= shorteningIntensity;
-                shorteningInterval = 0f; // Reset the interval timer
+                shorteningInterval = 0f; 
             }
         }
         
@@ -76,16 +80,35 @@ public class ShadowHand : MonoBehaviour
 
     void OnTriggerEnter(Collider collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            AttackBoat();
-        }
+        if (!collision.gameObject.CompareTag("Player"))
+            return;
+
+        if (isAttacking)
+            return;
+
+        isAttacking = true;
+        //DODAJ ANIMACJÊ ATAKU
+        
+        Collider selfCol = GetComponent<Collider>();
+        if (selfCol != null)
+            selfCol.enabled = false;
+
+        StartCoroutine(AttackDelayCoroutine());
     }
+
+    private IEnumerator AttackDelayCoroutine()
+    {
+        yield return new WaitForSeconds(attackDelay);
+
+        if (this == null) yield break;
+
+        AttackBoat();
+    }
+
     public void CameraShake()
     {
         if (impulseSource != null)
         {
-            // To wywo³a wstrz¹s
             impulseSource.GenerateImpulse();
         }
         else
@@ -97,30 +120,25 @@ public class ShadowHand : MonoBehaviour
     public void AttackBoat()
     {
         Debug.Log("Shadow Hand is attacking the boat!");
-        isAttacking = true;
         player.GetComponent<BoatMovement>().isAttacked = true;
 
         SnapAttackPoint closestPoint = FindNearestAvailableSnapPoint();
 
         if (closestPoint != null)
         {
-            // Rezerwujemy punkt
             occupiedPoint = closestPoint;
             occupiedPoint.isOccupied = true;
 
-            // Snapowanie: ustawiamy pozycjê i rotacjê dok³adnie tam gdzie punkt
-            // UWAGA: Robimy rêkê dzieckiem punktu, ¿eby buja³a siê razem z ³odzi¹!
             transform.SetParent(occupiedPoint.transform);
             transform.localPosition = Vector3.zero;
             transform.localRotation = Quaternion.identity;
+
 
             Debug.Log("Shadow Hand snapped to point!");
         }
 
         CameraShake();
         Debug.Log("Boat is attacked! Movement and rotation are locked.");
-
-        // Add boat tremble, increase fog intensity, lock player movement
         
     }
 
@@ -134,15 +152,15 @@ public class ShadowHand : MonoBehaviour
                 occupiedPoint = null;
             }
             transform.SetParent(null);
-            // Delete boat tremble, decrease fog intensity, unlock player movement
         }
-
+        //DODAJ DESOLVE
         Debug.Log("Shadow Hand has been defeated!");
         Destroy(gameObject);
     }
 
     public void lightAversion()
     {
+        //DODAJ PARTICLE OPCJONALNIE
         ligtheningTimer -= Time.deltaTime;
         if (isAttacking)
         {
@@ -157,6 +175,7 @@ public class ShadowHand : MonoBehaviour
         {
             Vector3 directionAwayFromPlayer = (transform.position - player.transform.position).normalized;
             transform.position += directionAwayFromPlayer * 3 * moveSpeed * Time.deltaTime;
+            //ANIMACJA RUCHU DO TY£U RÊKI
         }
     }
 
@@ -182,7 +201,6 @@ public class ShadowHand : MonoBehaviour
     }
     private SnapAttackPoint FindNearestAvailableSnapPoint()
     {
-        // ZnajdŸ wszystkie punkty z tagiem
         GameObject[] points = GameObject.FindGameObjectsWithTag("BoatSnapPoint");
         SnapAttackPoint bestPoint = null;
         float closestDistance = Mathf.Infinity;
