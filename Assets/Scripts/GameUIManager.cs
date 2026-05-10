@@ -16,7 +16,7 @@ public class GameUIManager : MonoBehaviour
         pauseMenuPanel.SetActive(false);
          Time.timeScale = 0f;  
         Cursor.lockState = CursorLockMode.None;  
-        Cursor.visible = true;
+        Cursor.visible = false;
     }
 
 
@@ -62,7 +62,7 @@ public class GameUIManager : MonoBehaviour
         {
             Time.timeScale = 0f;
             // W pauzie kursor MA BYÆ widoczny, ¿ebyœ móg³ nawigowaæ W/S
-            Cursor.visible = true;
+            Cursor.visible = false;
             Cursor.lockState = CursorLockMode.None;
         }
         else

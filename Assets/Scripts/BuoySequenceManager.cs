@@ -12,7 +12,7 @@ public class BuoySequenceManager : MonoBehaviour
     public float lateralSpread = 50f;
 
     private bool hintShown = false;
-    private int buoysCollected = 0;
+    public int buoysCollected = 0;
 
     void Update()
     {

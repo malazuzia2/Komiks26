@@ -226,8 +226,9 @@ MonoBehaviour:
   appearFreezeMin: 45
   appearFreezeMax: 46
   instanceMoveSpeed: 6
-  roarClip: {fileID: 0}
+  roarClip: {fileID: 8300000, guid: 835a558bc365559418b453a5fd20fb51, type: 3}
   shadowManagerToFreeze: {fileID: 0}
+  monsterAudioSource: {fileID: 0}
   instanceRotationSpeed: 360
 --- !u!4 &4936562651003152605 stripped
 Transform:

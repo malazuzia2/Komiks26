@@ -3591,7 +3591,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 835a558bc365559418b453a5fd20fb51, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.76
+  m_Volume: 1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -7453,6 +7453,10 @@ PrefabInstance:
       propertyPath: spawnInterval
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 9153313182692991567, guid: af8ea7a3a56b33844a665b2c206146cb, type: 3}
+      propertyPath: globalMonsterAudio
+      value: 
+      objectReference: {fileID: 1078384691}
     - target: {fileID: 9153313182692991567, guid: af8ea7a3a56b33844a665b2c206146cb, type: 3}
       propertyPath: waypoints.Array.size
       value: 48

@@ -75,7 +75,7 @@ public class AstrologicalTelescope : PickableItem
     {
         if (!isHeld || solved) return;
 
-        if (!isZooming && !hasShownHint)
+        if (!isZooming && !hasShownHint && BuoySequenceManager.Instance != null && BuoySequenceManager.Instance.buoysCollected > 0)
         {
             SimpleMessage.Instance.ShowMessage("Hold RBM to zoom in on the stars, and hold on there for a second.");
             hasShownHint = true;
