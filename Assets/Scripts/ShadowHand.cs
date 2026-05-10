@@ -16,6 +16,7 @@ public class ShadowHand : MonoBehaviour
     public GameObject camera;
     private ShadowManager shadowManager;
     private CinemachineImpulseSource impulseSource;
+    private SnapAttackPoint occupiedPoint;
 
     private void Awake()
     {
@@ -96,13 +97,27 @@ public class ShadowHand : MonoBehaviour
     {
         Debug.Log("Shadow Hand is attacking the boat!");
         isAttacking = true;
-        player.GetComponent<BoatMovement>().isAttacked = true;
-        float origianlMoveSpeed = player.GetComponent<BoatMovement>().moveSpeed;
-        player.GetComponent<BoatMovement>().moveSpeed = 0f;
-        float originalRotationSpeed = player.GetComponent<BoatMovement>().turnSpeed;
-        player.GetComponent<BoatMovement>().turnSpeed = 0f;
+
+        SnapAttackPoint closestPoint = FindNearestAvailableSnapPoint();
+
+        if (closestPoint != null)
+        {
+            // Rezerwujemy punkt
+            occupiedPoint = closestPoint;
+            occupiedPoint.isOccupied = true;
+
+            // Snapowanie: ustawiamy pozycjê i rotacjê dok³adnie tam gdzie punkt
+            // UWAGA: Robimy rêkê dzieckiem punktu, ¿eby buja³a siê razem z ³odzi¹!
+            transform.SetParent(occupiedPoint.transform);
+            transform.localPosition = Vector3.zero;
+            transform.localRotation = Quaternion.identity;
+
+            Debug.Log("Shadow Hand snapped to point!");
+        }
+
         CameraShake();
         Debug.Log("Boat is attacked! Movement and rotation are locked.");
+
         // Add boat tremble, increase fog intensity, lock player movement
         
     }
@@ -111,7 +126,12 @@ public class ShadowHand : MonoBehaviour
     {
         if (isAttacking)
         {
-            player.GetComponent<BoatMovement>().isAttacked = false;
+            if (occupiedPoint != null)
+            {
+                occupiedPoint.isOccupied = false;
+                occupiedPoint = null;
+            }
+            transform.SetParent(null);
             // Delete boat tremble, decrease fog intensity, unlock player movement
         }
 
@@ -157,5 +177,27 @@ public class ShadowHand : MonoBehaviour
         {
             shadowManager.RemoveShadowHand(this);
         }
+    }
+    private SnapAttackPoint FindNearestAvailableSnapPoint()
+    {
+        // ZnajdŸ wszystkie punkty z tagiem
+        GameObject[] points = GameObject.FindGameObjectsWithTag("BoatSnapPoint");
+        SnapAttackPoint bestPoint = null;
+        float closestDistance = Mathf.Infinity;
+
+        foreach (GameObject pointObj in points)
+        {
+            SnapAttackPoint sp = pointObj.GetComponent<SnapAttackPoint>();
+            if (sp != null && !sp.isOccupied)
+            {
+                float distance = Vector3.Distance(transform.position, pointObj.transform.position);
+                if (distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    bestPoint = sp;
+                }
+            }
+        }
+        return bestPoint;
     }
 }

@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - Boat
+  - BoatSnapPoint
   layers:
   - Default
   - TransparentFX

@@ -1,4 +1,6 @@
+using NUnit.Framework.Interfaces;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem; 
 
@@ -6,6 +8,8 @@ public class BoatMovement : MonoBehaviour
 {
     public float moveSpeed = 50f;
     public float turnSpeed = 100f;
+    private float originalMoveSpeed;
+    private float originalTurnSpeed;
     public bool isAttacked = false;
     public List<GameObject> snapAttackPoints;
 
@@ -16,11 +20,22 @@ public class BoatMovement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        originalMoveSpeed = moveSpeed;
+        originalTurnSpeed = turnSpeed;
     }
 
     void Update()
     {
-        if(isAttacked) return;
+        checkIfAttacked();
+
+        if (isAttacked)
+        {
+            originalMoveSpeed = moveSpeed;
+            originalTurnSpeed = turnSpeed;
+            moveSpeed = 0f;
+            turnSpeed = 0f;
+            return;
+        }
 
         var keyboard = Keyboard.current;
         if (keyboard == null) return;
@@ -48,6 +63,20 @@ public class BoatMovement : MonoBehaviour
             float rotation = turnInput * turnSpeed * Time.fixedDeltaTime;
             Quaternion turnRotation = Quaternion.Euler(0f, rotation, 0f);
             rb.MoveRotation(rb.rotation * turnRotation);
+        }
+    }
+
+    public void checkIfAttacked()
+    {
+        if (!snapAttackPoints.Any(point => point.activeInHierarchy)) 
+        {
+            isAttacked = true;
+        }
+        else
+        {
+            isAttacked = false;
+            moveSpeed = originalMoveSpeed;
+            turnSpeed = originalTurnSpeed;
         }
     }
 }
