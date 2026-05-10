@@ -249,7 +249,10 @@ VisualEffect:
         m_Name: Transform_scale
         m_Overridden: 1
     m_Vector4f:
-      m_Array: []
+      m_Array:
+      - m_Value: {x: 0.9716981, y: 0, z: 0, w: 0}
+        m_Name: Color
+        m_Overridden: 1
     m_Uint:
       m_Array: []
     m_Int:
@@ -421,7 +424,7 @@ VisualEffect:
         m_Overridden: 1
     m_Vector4f:
       m_Array:
-      - m_Value: {x: 0, y: 0, z: 0, w: 0}
+      - m_Value: {x: 1, y: 0, z: 0, w: 0}
         m_Name: Color
         m_Overridden: 1
     m_Uint:
@@ -543,7 +546,7 @@ PrefabInstance:
     - target: {fileID: -636503168956358545, guid: ac91b691f18681849b3d82a744ec793f, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: f9361483295cd5c469306f0ae80e0ac2, type: 2}
+      objectReference: {fileID: 2100000, guid: 8999a004d758be54bb8a31e03e591dc6, type: 2}
     - target: {fileID: 919132149155446097, guid: ac91b691f18681849b3d82a744ec793f, type: 3}
       propertyPath: m_Name
       value: right_hand
