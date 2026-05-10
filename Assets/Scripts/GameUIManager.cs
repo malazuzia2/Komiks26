@@ -7,6 +7,7 @@ public class GameUIManager : MonoBehaviour
     public GameObject mainMenuPanel;
     public GameObject pauseMenuPanel;
     public GameObject pointer;
+    public GameObject endGame;
 
     private bool isPaused = false;
 
@@ -45,6 +46,15 @@ public class GameUIManager : MonoBehaviour
         Cursor.visible = false;
     }
 
+    public void ShowGameOver()
+    {
+        endGame.SetActive(true);
+
+        Time.timeScale = 0f;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+    }
+
     public void TogglePause()
     {
         isPaused = !isPaused;
@@ -59,6 +69,7 @@ public class GameUIManager : MonoBehaviour
         }
         else
         {
+            pointer.SetActive(true);
             Time.timeScale = 1f;
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;

@@ -37,12 +37,20 @@ public class NavigationManager : MonoBehaviour
     {
         if (!isSearchingPhase) return;
         isSearchingPhase = false;
-         
-        currentStage++;
 
-        if (BuoySequenceManager.Instance != null)
+        currentStage++; // Zwiêkszamy etap po znalezieniu gwiazd
+
+        // Sprawdzamy, czy to by³ ostatni (trzeci) gwiazdozbiór
+        if (currentStage == starGroups.Length)
         {
+            // KONIEC GWIAZD - Spawnujemy fina³ow¹ bojkê
+            BuoySequenceManager.Instance.SpawnFinalBuoy();
+        }
+        else
+        {
+            // Kontynuujemy standardowy cykl
             BuoySequenceManager.Instance.SpawnNextBuoy();
         }
     }
+
 }
