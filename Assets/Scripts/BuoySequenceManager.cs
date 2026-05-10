@@ -35,4 +35,16 @@ public class BuoySequenceManager : MonoBehaviour
 
         Instantiate(buoyPrefab, spawnPos, Quaternion.identity);
     }
+
+    public GameObject finalBuoyPrefab;  
+
+    public void SpawnFinalBuoy()
+    {
+        Vector3 spawnPos = player.position + player.forward * spawnDistance;
+        spawnPos.y = player.position.y;
+
+        Instantiate(finalBuoyPrefab, spawnPos, Quaternion.identity);
+    }
+
+
 }
