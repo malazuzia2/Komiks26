@@ -2,42 +2,60 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 public class AstrologicalTelescope : PickableItem
 {
-    [Header("Luneta")]
-    public GameObject telescopeUI;       
-    public Image constellationLines;     
-    public float zoomFOV = 15f;         
+    [Header("Luneta - UI")]
+    public GameObject telescopeUI;
+    public Image constellationLines;
+    public float zoomFOV = 15f;
+    [Range(0, 1)] public float minOpacity = 0.2f;
 
-    [Header("Gwiazdy")]
-    public Transform starTargetGroup;  
+    [Header("Gwiazdy - Mechanika")]
+    public Transform starTargetGroup;
     public float tolerance = 10f;
+    public float holdTime = 4.0f; // Czas rozwi¹zania zagadki (4 sekundy)
 
-    [Header("Sounds")]
+    [Header("Efekty Wizualne")]
+    public ParticleSystem starExplosionPrefab; // Prefab wybuchu (Particle System)
+    public float maxUIEmission = 2.0f;
+    public float maxStarBrightness = 5.0f;
+
+    [Header("DŸwiêki")]
     public AudioClip pickupSound;
     public AudioClip finishedSound;
 
-    public float holdTime = 3.0f;
+    // Prywatne zmienne pomocnicze
     private float currentHoldTimer = 0f;
     private bool isSolving = false;
-
     private float defaultFOV;
     private bool isZooming = false;
     private bool isHeld = false;
     private bool solved = false;
 
+    private Material uiMat;
+    private List<Material> currentStarMaterials = new List<Material>();
+
     void Start()
     {
-        defaultFOV = Camera.main.fieldOfView;
+        if (Camera.main != null)
+            defaultFOV = Camera.main.fieldOfView;
+
+        // Pobieramy materia³ z Image (wymaga Custom Shadera na UI Image)
+        if (constellationLines != null)
+        {
+            // Tworzymy instancjê materia³u, ¿eby nie zmieniaæ assetu na dysku
+            uiMat = Instantiate(constellationLines.material);
+            constellationLines.material = uiMat;
+        }
     }
 
     public override void OnPickUp(Transform hand)
     {
         if (pickupSound != null)
-        {
             AudioSource.PlayClipAtPoint(pickupSound, transform.position, 0.7f);
-        }
+
         base.OnPickUp(hand);
         isHeld = true;
     }
@@ -49,52 +67,48 @@ public class AstrologicalTelescope : PickableItem
         ExitZoom();
     }
 
+    void Update()
+    {
+        if (!isHeld || solved) return;
+
+        if (Mouse.current.rightButton.isPressed)
+        {
+            EnterZoom();
+
+            // Sprawdzamy postêp tylko jeœli NavigationManager na to pozwala
+            if (NavigationManager.Instance != null && NavigationManager.Instance.isSearchingPhase)
+            {
+                CheckStars();
+            }
+        }
+        else
+        {
+            ExitZoom();
+            ResetHold();
+        }
+    }
 
     void EnterZoom()
     {
+        if (isZooming) return;
         isZooming = true;
-        Camera.main.fieldOfView = zoomFOV;  
-        telescopeUI.SetActive(true);      
-         
+        Camera.main.fieldOfView = zoomFOV;
+        telescopeUI.SetActive(true);
+
         int starsLayer = LayerMask.NameToLayer("Stars");
-        if (starsLayer != -1)
-        { 
-            Camera.main.cullingMask |= (1 << starsLayer);
-        }
+        if (starsLayer != -1) Camera.main.cullingMask |= (1 << starsLayer);
     }
 
     void ExitZoom()
     {
+        if (!isZooming) return;
         isZooming = false;
-        Camera.main.fieldOfView = defaultFOV; 
-        telescopeUI.SetActive(false);        
-         
+        Camera.main.fieldOfView = defaultFOV;
+        telescopeUI.SetActive(false);
+
         int starsLayer = LayerMask.NameToLayer("Stars");
-        if (starsLayer != -1)
-        { 
-            Camera.main.cullingMask &= ~(1 << starsLayer);
-        }
+        if (starsLayer != -1) Camera.main.cullingMask &= ~(1 << starsLayer);
     }
-    void Update()
-    {
-        if (!isHeld) return;
-
-         if (Mouse.current.rightButton.isPressed)
-         {
-            EnterZoom();
-
-             if (NavigationManager.Instance.isSearchingPhase)
-             {
-                CheckStars();
-             }
-         }
-         else
-         {
-            ExitZoom();
-         }
-    }
-
-    [Range(0, 1)] public float minOpacity = 0.2f;
 
     void CheckStars()
     {
@@ -102,18 +116,16 @@ public class AstrologicalTelescope : PickableItem
 
         Vector3 dirToStars = (starTargetGroup.position - Camera.main.transform.position).normalized;
         float angle = Vector3.Angle(Camera.main.transform.forward, dirToStars);
-        Color currentColor = constellationLines.color;
 
         if (angle < tolerance)
         {
             isSolving = true;
             currentHoldTimer += Time.deltaTime;
 
-            float progress = currentHoldTimer / holdTime;
+            // Obliczamy progres 0-1 w czasie holdTime (4s)
+            float progress = Mathf.Clamp01(currentHoldTimer / holdTime);
 
-             float currentOpacity = Mathf.Lerp(0.2f, 1.0f, progress);
-
-            constellationLines.color = currentColor;
+            UpdateVisualEffects(progress);
 
             if (currentHoldTimer >= holdTime)
             {
@@ -122,57 +134,97 @@ public class AstrologicalTelescope : PickableItem
         }
         else
         {
+            // Jeœli gracz "zgubi" gwiazdy, p³ynnie resetujemy (lub nagle, zale¿nie od preferencji)
             ResetHold();
-            float f = Mathf.Clamp01(1f - (angle / 20f));
-            float finalAlpha = Mathf.Lerp(minOpacity, 1f, f);
-            constellationLines.color = new Color(1, 1, 1, finalAlpha);
         }
-    
-
     }
+
+    void UpdateVisualEffects(float progress)
+    {
+        // 1. P³ynne opacity linii konstelacji (od minOpacity do 1.0)
+        float currentAlpha = Mathf.Lerp(minOpacity, 1.0f, progress);
+        constellationLines.color = new Color(1, 1, 1, currentAlpha);
+
+        // 2. Zwiêkszanie Emission na UI (Shader musi mieæ parametr _EmissionPower)
+        if (uiMat != null)
+            uiMat.SetFloat("_EmissionPower", progress * maxUIEmission);
+
+        // 3. Rozjaœnianie gwiazd w œwiecie (Shader gwiazd musi mieæ parametr _Brightness)
+        foreach (Material mat in currentStarMaterials)
+        {
+            if (mat != null)
+                mat.SetFloat("_Brightness", 1.0f + (progress * maxStarBrightness));
+        }
+    }
+
     void ResetHold()
     {
         if (isSolving)
         {
             currentHoldTimer = 0f;
             isSolving = false;
-             constellationLines.color = new Color(1, 1, 1, minOpacity);
+            UpdateVisualEffects(0); // Wraca do stanu pocz¹tkowego
         }
     }
 
     void CompletePuzzle()
     {
-        if (finishedSound != null)
-        {
-            AudioSource.PlayClipAtPoint(finishedSound, transform.position, 0.7f);
-        }
         solved = true;
         isSolving = false;
-        if (starTargetGroup != null) starTargetGroup.gameObject.SetActive(false);
 
-        NavigationManager.Instance.OnStarsMatched();
-     }
+        if (finishedSound != null)
+            AudioSource.PlayClipAtPoint(finishedSound, transform.position, 0.7f);
 
+        // Uruchamiamy sekwencjê koñcow¹
+        StartCoroutine(SolveAnimationSequence());
 
-    public void SetNewTarget(Transform newStars, Sprite newImage)
-    {
-        starTargetGroup = newStars;          
-        constellationLines.sprite = newImage;  
-        solved = false;                  
-
-        constellationLines.color = new Color(1, 1, 1, minOpacity);
+        if (NavigationManager.Instance != null)
+            NavigationManager.Instance.OnStarsMatched();
     }
 
-
-    IEnumerator FadeOutStars(GameObject group)
+    IEnumerator SolveAnimationSequence()
     {
-        float duration = 3.0f; 
-        float elapsed = 0; 
-        while (elapsed < duration)
+        // 1. Wybuch (Particle System)
+        if (starExplosionPrefab != null)
         {
-            elapsed += Time.deltaTime; 
+            Instantiate(starExplosionPrefab, starTargetGroup.position, Quaternion.identity);
+        }
+
+        // 2. P³ynny Dissolve gwiazd
+        float elapsed = 0;
+        float dissolveDuration = 2.0f;
+        while (elapsed < dissolveDuration)
+        {
+            elapsed += Time.deltaTime;
+            float dissolveProgress = elapsed / dissolveDuration;
+
+            foreach (Material mat in currentStarMaterials)
+            {
+                if (mat != null)
+                    mat.SetFloat("_DissolveAmount", dissolveProgress);
+            }
             yield return null;
         }
-        group.SetActive(false);
+
+        starTargetGroup.gameObject.SetActive(false);
+    }
+
+    // Wywo³ywane przez zewnêtrzny skrypt menad¿era zagadek
+    public void SetNewTarget(Transform newStars, Sprite newImage)
+    {
+        starTargetGroup = newStars;
+        constellationLines.sprite = newImage;
+        solved = false;
+        currentHoldTimer = 0;
+
+        // Cache materia³ów gwiazd, aby nie szukaæ ich co klatkê
+        currentStarMaterials.Clear();
+        Renderer[] renderers = starTargetGroup.GetComponentsInChildren<Renderer>();
+        foreach (Renderer r in renderers)
+        {
+            currentStarMaterials.Add(r.material);
+        }
+
+        UpdateVisualEffects(0);
     }
 }
